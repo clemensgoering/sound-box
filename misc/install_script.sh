@@ -41,7 +41,7 @@ check_continue(){
             echo "Installation stopped"
             ;;
         *)
-            $2
+            # continue
             ;;
     esac
 }
@@ -68,11 +68,11 @@ welcome() {
     read -rp "Continue interactive installation? [Y/n] " response
     case "$response" in
         [nN][oO]|[nN])
-            CONTINUE=false
             echo "Installation cancelled"
             ;;
         *)
-            # continue with further steps
+            echo "Installation starting..."
+            install
             ;;
     esac
 }
@@ -125,6 +125,7 @@ loading_nodejs(){
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
         # globally install express for the docker nodejs application
         npm install -g express
+        check_continue "Preparing Docker container..."
     fi
 }
 
@@ -157,6 +158,7 @@ loading_git(){
         cd "${SOUNDBOX_HOME_DIR}"
         git clone ${GIT_URL} --branch "${GIT_BRANCH}"
         echo "-- Fetching git data completed"
+        check_continue "Loading NodeJS Data and Dependencies..."
     fi
 }
 

@@ -1,0 +1,7 @@
+# Nodejs and webserver related packages
+ca-certificates 
+curl 
+gnupg
+nodejs
+npm
+express-generator

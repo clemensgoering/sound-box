@@ -1,0 +1,5 @@
+# Spotify related requirements
+Mopidy-Local
+Mopidy-MPD
+Mopidy-Iris==3.69.3
+Mopidy-Spotify==5.0.0a3

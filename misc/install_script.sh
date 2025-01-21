@@ -11,6 +11,14 @@ HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 
+# local function as it is needed before the repo is checked out!
+_escape_for_shell() {
+	local escaped="${1//\"/\\\"}"
+	escaped="${escaped//\`/\\\`}"
+    escaped="${escaped//\$/\\\$}"
+	echo "$escaped"
+}
+
 
 welcome() {
     clear
@@ -41,9 +49,15 @@ Let the sounds begin."
 create_config_file() {
     # CONFIG FILE
     # Create empty config file
-    touch "${HOME_DIR}/Configuration.conf"
-    echo "# Overall config" > "${HOME_DIR}/Configuration.conf"
-    echo " -- Configuration file created."
+    touch "${SOUNDBOX_HOME_DIR}/configuration.conf"
+    echo "# Overall config" > "${SOUNDBOX_HOME_DIR}/configuration.conf"
+    echo "-- Configuration file created."
+}
+
+loading_nodejs(){
+    echo "-- Loading NodeJS related packages..."
+    # Spotify and node server dependencies / packages
+    call_with_args_from_file /packages-node.txt ${apt_get} ${allow_downgrades} install
 }
 
 
@@ -62,7 +76,6 @@ install(){
     echo "User home dir: ${HOME_DIR}"
     echo "################################################"
 
-    create_config_file
     echo "-- Updating & Upgrading system. Please be patient..."
     # -qq quite mode, active = yes
     ${apt_get} update
@@ -73,13 +86,19 @@ install(){
     
     echo "-- Create folder and load git"
     mkdir "${SOUNDBOX_HOME_DIR}"
+    create_config_file
     cd "${SOUNDBOX_HOME_DIR}"
     git clone ${GIT_URL} --branch "${GIT_BRANCH}"
     
     echo "-- Fetching data completed"
-    echo "-- Loading additrioanl packages"
-    call_with_args_from_file /packages.txt ${apt_get} ${allow_downgrades} install
 
+    ################################
+    # NodeJS , Docker
+    ################################
+    loading_nodejs
+    cd "sound-box/docker"
+    npm install
+    echo "-- NodeJS and Docker installation finished"
 }
 
 

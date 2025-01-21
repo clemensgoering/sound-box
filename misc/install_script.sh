@@ -9,19 +9,8 @@ DATETIME=$(date +"%Y%m%d_%H%M%S")
 CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 
-CONFIG_AVAILABLE=false
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 
-
-checkPrerequisite() {
-    if [ -e ${SOUNDBOX_HOME_DIR}/Configuration.conf ]
-    then
-        echo "Configuration.conf already exists"
-        ${CONFIG_AVAILABLE}=true
-    else
-        echo "Configuration.conf not existing"
-    fi
-}
 
 welcome() {
     clear
@@ -83,11 +72,13 @@ install(){
     ${apt_get} install git
     
     echo "-- Create folder and load git"
-    sudo mkdir "${SOUNDBOX_HOME_DIR}"
+    mkdir "${SOUNDBOX_HOME_DIR}"
     cd "${SOUNDBOX_HOME_DIR}"
     git clone ${GIT_URL} --branch "${GIT_BRANCH}"
     
     echo "-- Fetching data completed"
+    echo "-- Loading additrioanl packages"
+    call_with_args_from_file /packages.txt ${apt_get} ${allow_downgrades} install
 
 }
 
@@ -96,7 +87,6 @@ install(){
 # Main #
 ########
 main() {
-    checkPrerequisite
     welcome
     finished
 }

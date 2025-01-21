@@ -11,7 +11,7 @@ HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 
 CONFIG_AVAILABLE=false
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
-
+INSTALL=false
 
 checkPrerequisite() {
     if [ -e ${SOUNDBOX_HOME_DIR}/Configuration.conf ]
@@ -35,7 +35,7 @@ welcome() {
             echo "Installation cancelled"
             ;;
         *)
-            install "${SOUNDBOX_HOME_DIR}"
+            INSTALL=true
             ;;
     esac
 }
@@ -44,8 +44,6 @@ finished() {
     echo "#####################################################
 # INSTALLATION FINISHED
 #####################################################
-
-Let the sounds begin."
 }
 
 create_config_file() {
@@ -111,11 +109,11 @@ install(){
 ########
 main() {
     checkPrerequisite
-
-    if [[ ${INTERACTIVE} == "true" ]]; then
-        welcome
+    welcome
+    if [[ ${INSTALL} == "true" ]]; then
+        install "${SOUNDBOX_HOME_DIR}"
     else
-        echo "Non-interactive installation!"
+        echo "Installation cancelled"
     fi
     finished
 }

@@ -8,6 +8,29 @@ DATETIME=$(date +"%Y%m%d_%H%M%S")
 
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 
+checkPrerequisite() {
+    if [ "${HOME_DIR}" != "/home/pi" ]; then
+        echo
+        echo "ERROR: HomeDir must be '/home/pi'!"
+        echo "       Other usernames are currently not supported."
+        echo "       Please check the wiki for further information"
+        exit 2
+    fi
+
+    if [ ! -d "${HOME_DIR}" ]; then
+        echo
+        echo "Warning: HomeDir ${HOME_DIR} does not exist."
+        echo "         Please create it and start again."
+        exit 2
+    fi
+    if [ -e ${HOME_DIR}/Configuration.conf ]
+    then
+        echo "Configuration.conf already exists"
+    else
+        echo "Configuration.conf not existing"
+    fi
+}
+
 welcome() {
     clear
     echo "#####################################################

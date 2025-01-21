@@ -14,6 +14,7 @@ SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 
 
 checkPrerequisite() {
+    echo ${HOME_DIR}
     if [ "${HOME_DIR}" != "/home/pi" ]; then
         echo
         echo "ERROR: HomeDir must be '/home/pi'!"

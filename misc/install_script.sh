@@ -2,6 +2,7 @@
 # Installation of the sript can be started by calling
 # cd; bash <(wget -qO- https://raw.githubusercontent.com/clemensgoering/sound-box/main/misc/install_script.sh)
 
+GIT_REPO=${GIT_REPO:-sound-box}
 GIT_BRANCH=${GIT_BRANCH:-main}
 GIT_URL=${GIT_URL:-https://github.com/clemensgoering/sound-box.git}
 DATETIME=$(date +"%Y%m%d_%H%M%S")
@@ -74,7 +75,8 @@ create_config_file() {
 loading_nodejs(){
     echo "-- Loading NodeJS related packages..."
     # Spotify and node server dependencies / packages
-    call_with_args_from_file /packages-node.txt ${apt_get} ${allow_downgrades} install
+    echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
+    call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
 }
 
 
@@ -113,7 +115,7 @@ install(){
     # NodeJS , Docker
     ################################
     loading_nodejs
-    cd "sound-box/docker"
+    cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
     npm install
     echo "-- NodeJS and Docker installation finished"
 }

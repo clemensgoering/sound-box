@@ -36,7 +36,7 @@ welcome() {
             ;;
         *)
             echo "Installation starting..."
-            install "${SOUNDBOX_HOME_DIR}"
+            install
             ;;
     esac
 }
@@ -57,27 +57,8 @@ create_config_file() {
     echo " -- Configuration file created."
 }
 
-folder_access() {
-    local home_dir="$1"
-    local user_group="$2"
-    local mod="$3"
-
-    #####################################################
-    # Folders and Access Settings
-
-    echo "Setting owner and permissions for directories..."
-
-    # create settings folder
-    mkdir -p "${home_dir}"/settings
-    sudo chown -R "${user_group}" "${home_dir}"/settings
-    sudo chmod -R "${mod}" "${home_dir}"/settings
-
-    # / Access settings
-    #####################################################
-}
 
 install(){
-    local home_dir="$1"
     local apt_get="sudo apt-get -qq --yes"
     local allow_downgrades="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
     local pip_install="sudo python3 -m pip install --upgrade --force-reinstall -q"
@@ -93,17 +74,21 @@ install(){
     echo "################################################"
 
     create_config_file
-
+    echo "-- Updating & Upgrading system. Please be patient..."
     # -qq quite mode, active = yes
     ${apt_get} update
     ${apt_get} upgrade
-
+    echo "-- Update completed."
     # Get github code. git must be installed before, even if defined in packages.txt!
     ${apt_get} install git
-    cd "${HOME_DIR}"
+    
+    echo "-- Create folder and load git"
+    sudo mkdir "${SOUNDBOX_HOME_DIR}"
+    cd "${SOUNDBOX_HOME_DIR}"
     git clone ${GIT_URL} --branch "${GIT_BRANCH}"
+    
+    echo "-- Fetching data completed"
 
-    folder_access "${HOME_DIR}" "pi:www-data" 775
 }
 
 

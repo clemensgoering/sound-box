@@ -72,13 +72,46 @@ create_config_file() {
     echo "-- Configuration file created."
 }
 
-loading_nodejs(){
-    echo "-- Loading NodeJS related packages..."
+loading_nodejs(){    
+    clear
+    echo "
+    ################################################
+    # Nodejs and Docker related tasks...
+    ################################################"
+    echo "-- Loading necessary packages..."
     # Spotify and node server dependencies / packages
     echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
     call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
+    # globally install express for the docker nodejs application
+    npm install -g express
 }
 
+processing_docker(){
+    clear
+    echo "
+    ################################################
+    # Docker installation and preparation
+    ################################################"
+    cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
+    npm install
+    echo "-- NodeJS and Docker installation finished"
+}
+
+loading_git(){
+    clear
+    echo "
+    ################################################
+    # Installing Git and all dependencies...
+    ################################################"
+    # Get github code. git must be installed before, even if defined in packages.txt!
+    ${apt_get} install git
+    echo "-- Create folder and config file"
+    mkdir "${SOUNDBOX_HOME_DIR}"
+    create_config_file
+    cd "${SOUNDBOX_HOME_DIR}"
+    git clone ${GIT_URL} --branch "${GIT_BRANCH}"
+    echo "-- Fetching git data completed"
+}
 
 install(){
     local apt_get="sudo apt-get -qq --yes"
@@ -100,24 +133,17 @@ install(){
     ${apt_get} update
     ${apt_get} upgrade
     echo "-- Update completed."
-    # Get github code. git must be installed before, even if defined in packages.txt!
-    ${apt_get} install git
-    
-    echo "-- Create folder and load git"
-    mkdir "${SOUNDBOX_HOME_DIR}"
-    create_config_file
-    cd "${SOUNDBOX_HOME_DIR}"
-    git clone ${GIT_URL} --branch "${GIT_BRANCH}"
-    
-    echo "-- Fetching data completed"
-
     ################################
-    # NodeJS , Docker
+    # GIT
+    ################################
+    loading_git
+    ################################
+    # NodeJS and Docker
     ################################
     loading_nodejs
-    cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
-    npm install
-    echo "-- NodeJS and Docker installation finished"
+    processing_docker
+
+
 }
 
 

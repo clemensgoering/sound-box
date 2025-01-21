@@ -4,4 +4,3 @@ curl
 gnupg
 nodejs
 npm
-express-generator

@@ -34,17 +34,31 @@ Let the sounds begin."
 }
 
 create_config_file() {
-    #####################################################
     # CONFIG FILE
-
-    # Remove existing config file
-    rm "${HOME_DIR}/Configuration.conf"
     # Create empty config file
     touch "${HOME_DIR}/Configuration.conf"
-    echo "# Phoniebox config" > "${HOME_DIR}/Configuration.conf"
+    echo "# Overall config" > "${HOME_DIR}/Configuration.conf"
     echo " -- Configuration file created."
 }
 
+folder_access() {
+    local home_dir="$1"
+    local user_group="$2"
+    local mod="$3"
+
+    #####################################################
+    # Folders and Access Settings
+
+    echo "Setting owner and permissions for directories..."
+
+    # create settings folder
+    mkdir -p "${home_dir}"/settings
+    sudo chown -R "${user_group}" "${home_dir}"/settings
+    sudo chmod -R "${mod}" "${home_dir}"/settings
+
+    # / Access settings
+    #####################################################
+}
 
 install(){
     local home_dir="$1"
@@ -72,6 +86,8 @@ install(){
     ${apt_get} install git
     cd "${HOME_DIR}"
     git clone ${GIT_URL} --branch "${GIT_BRANCH}"
+
+    folder_access "${HOME_DIR}" "pi:www-data" 775
 }
 
 

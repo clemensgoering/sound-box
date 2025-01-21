@@ -11,7 +11,6 @@ HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 
 CONFIG_AVAILABLE=false
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
-INSTALL=false
 
 checkPrerequisite() {
     if [ -e ${SOUNDBOX_HOME_DIR}/Configuration.conf ]
@@ -35,7 +34,7 @@ welcome() {
             echo "Installation cancelled"
             ;;
         *)
-            INSTALL=true
+            install "${SOUNDBOX_HOME_DIR}"
             ;;
     esac
 }
@@ -110,11 +109,6 @@ install(){
 main() {
     checkPrerequisite
     welcome
-    if [[ ${INSTALL} == "true" ]]; then
-        install "${SOUNDBOX_HOME_DIR}"
-    else
-        echo "Installation cancelled"
-    fi
     finished
 }
 

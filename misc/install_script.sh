@@ -5,6 +5,10 @@
 GIT_BRANCH=${GIT_BRANCH:-main}
 GIT_URL=${GIT_URL:-https://github.com/clemensgoering/sound-box.git}
 DATETIME=$(date +"%Y%m%d_%H%M%S")
+
+CURRENT_USER="${SUDO_USER:-$(whoami)}"
+HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
+
 CONFIG_AVAILABLE=false
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 

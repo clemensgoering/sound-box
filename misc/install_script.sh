@@ -11,7 +11,11 @@ HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 
-# local function as it is needed before the repo is checked out!
+################################
+#
+# Helper functions for processing within the installation script
+#
+################################
 _escape_for_shell() {
 	local escaped="${1//\"/\\\"}"
 	escaped="${escaped//\`/\\\`}"
@@ -19,10 +23,23 @@ _escape_for_shell() {
 	echo "$escaped"
 }
 
+call_with_args_from_file () {
+    local package_file="$1"
+    shift
 
+    sed 's|#.*||g' ${package_file} | xargs "$@"
+}
+
+
+################################
+#
+# Installation functions
+#
+################################
 welcome() {
     clear
-    echo "#####################################################
+    echo "
+#####################################################
 # You are turning your Raspberry Pi into a Soundbox. 
 # Continue with the installation.
 #####################################################"
@@ -39,10 +56,10 @@ welcome() {
 }
 
 finished() {
-    echo "#####################################################
+    echo "
+#####################################################
 # INSTALLATION FINISHED
 #####################################################
-
 Let the sounds begin."
 }
 
@@ -102,9 +119,11 @@ install(){
 }
 
 
-########
-# Main #
-########
+################################
+# 
+# Main
+#  
+################################
 main() {
     welcome
     finished
@@ -120,10 +139,3 @@ runtime=$((end-start))
 ((m=(${runtime}%3600)/60))
 ((s=${runtime}%60))
 echo "Done (in ${h}h ${m}m ${s}s)."
-
-#####################################################
-# notes for things to do
-
-# CLEANUP
-## remove dir BACKUP (possibly not, because we do this at the beginning after user confirms for latest config)
-#####################################################

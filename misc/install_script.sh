@@ -32,10 +32,10 @@ welcome() {
     read -rp "Continue interactive installation? [Y/n] " response
     case "$response" in
         [nN][oO]|[nN])
-            install "${SOUNDBOX_HOME_DIR}"
+            echo "Installation cancelled"
             ;;
         *)
-            echo "Installation cancelled"
+            install "${SOUNDBOX_HOME_DIR}"
             ;;
     esac
 }

@@ -12,6 +12,9 @@ HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 
+
+CONTINUE=true
+
 ################################
 #
 # Helper functions for processing within the installation script
@@ -31,6 +34,18 @@ call_with_args_from_file () {
     sed 's|#.*||g' ${package_file} | xargs "$@"
 }
 
+check_continue(){
+    read -rp "Continue next step: '$1'? [Y/n] " response
+    case "$response" in
+        [nN][oO]|[nN])
+            echo "Installation stopped"
+            ;;
+        *)
+            $2
+            ;;
+    esac
+}
+
 
 ################################
 #
@@ -41,17 +56,23 @@ welcome() {
     clear
     echo "
 #####################################################
+#   _________                        .______.                 
+#  /   _____/ ____  __ __  ____    __| _/\_ |__   _______  ___
+#  \_____  \ /  _ \|  |  \/    \  / __ |  | __ \ /  _ \  \/  /
+#  /        (  <_> )  |  /   |  \/ /_/ |  | \_\ (  <_> >    < 
+# /_______  /\____/|____/|___|  /\____ |  |___  /\____/__/\_ \
+#         \/                  \/      \/      \/            \/
 # You are turning your Raspberry Pi into a Soundbox. 
 # Continue with the installation.
 #####################################################"
     read -rp "Continue interactive installation? [Y/n] " response
     case "$response" in
         [nN][oO]|[nN])
+            CONTINUE=false
             echo "Installation cancelled"
             ;;
         *)
-            echo "Installation starting..."
-            install
+            # continue with further steps
             ;;
     esac
 }
@@ -72,56 +93,9 @@ create_config_file() {
     echo "-- Configuration file created."
 }
 
-loading_nodejs(){    
-    clear
-    echo "
-    ################################################
-    # Nodejs and Docker related tasks...
-    ################################################"
-    echo "-- Loading necessary packages..."
-    # Spotify and node server dependencies / packages
-    echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
-    call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
-    # globally install express for the docker nodejs application
-    npm install -g express
-}
-
-processing_docker(){
-    clear
-    echo "
-    ################################################
-    # Docker installation and preparation
-    ################################################"
-    cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
-    npm install
-    echo "-- NodeJS and Docker installation finished"
-}
-
-loading_git(){
-    clear
-    echo "
-    ################################################
-    # Installing Git and all dependencies...
-    ################################################"
-    # Get github code. git must be installed before, even if defined in packages.txt!
-    ${apt_get} install git
-    echo "-- Create folder and config file"
-    mkdir "${SOUNDBOX_HOME_DIR}"
-    create_config_file
-    cd "${SOUNDBOX_HOME_DIR}"
-    git clone ${GIT_URL} --branch "${GIT_BRANCH}"
-    echo "-- Fetching git data completed"
-}
-
-install(){
+loading_general_updates(){
     local apt_get="sudo apt-get -qq --yes"
-    local allow_downgrades="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-    local pip_install="sudo python3 -m pip install --upgrade --force-reinstall -q"
-    local pip_uninstall="sudo python3 -m pip uninstall -y -q"
-    
-    #clear console
     clear
-
     echo "################################################"
     echo "GIT_BRANCH ${GIT_BRANCH}"
     echo "GIT_URL ${GIT_URL}"
@@ -133,6 +107,64 @@ install(){
     ${apt_get} update
     ${apt_get} upgrade
     echo "-- Update completed."
+    check_continue "Loading GIT Data"
+}
+
+loading_nodejs(){        
+    local apt_get="sudo apt-get -qq --yes"
+    local allow_downgrades="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
+    if [[ ${CONTINUE} == "true" ]]; then
+        clear
+        echo "
+################################################
+# Nodejs and Docker related tasks...
+################################################"
+        echo "-- Loading necessary packages..."
+        # Spotify and node server dependencies / packages
+        echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
+        call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
+        # globally install express for the docker nodejs application
+        npm install -g express
+    fi
+}
+
+processing_docker(){
+    if [[ ${CONTINUE} == "true" ]]; then
+        clear
+        echo "
+################################################
+# Docker installation and preparation
+################################################"
+        cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
+        npm install
+        echo "-- NodeJS and Docker installation finished"
+    fi
+}
+
+loading_git(){    
+    local apt_get="sudo apt-get -qq --yes"
+    if [[ ${CONTINUE} == "true" ]]; then
+        clear
+        echo "
+################################################
+# Installing Git and all dependencies...
+################################################"
+        # Get github code. git must be installed before, even if defined in packages.txt!
+        ${apt_get} install git
+        echo "-- Create folder and config file"
+        mkdir "${SOUNDBOX_HOME_DIR}"
+        create_config_file
+        cd "${SOUNDBOX_HOME_DIR}"
+        git clone ${GIT_URL} --branch "${GIT_BRANCH}"
+        echo "-- Fetching git data completed"
+    fi
+}
+
+install(){    
+    #clear console
+    clear
+
+    loading_general_updates
     ################################
     # GIT
     ################################

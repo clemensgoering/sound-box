@@ -112,12 +112,7 @@ install(){
 ########
 main() {
     checkPrerequisite
-
-    if [[ ${INTERACTIVE} == "true" ]]; then
-        welcome
-    else
-        echo "Non-interactive installation!"
-    fi
+    welcome
     finished
 }
 

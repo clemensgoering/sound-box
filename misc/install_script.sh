@@ -55,14 +55,20 @@ install(){
     #clear console
     clear
 
+    echo "################################################"
+    echo "GIT_BRANCH ${GIT_BRANCH}"
+    echo "GIT_URL ${GIT_URL}"
+    echo "User home dir: ${HOME_DIR}"
+    echo "################################################"
+
     create_config_file()
-    
-    # Prepare installation by updating root
-    ${apt_get} update
-    ${apt_get} upgrade
+
+    # -qq quite mode, active = yes
+    sudo apt-get -qq --yes update
+    sudo apt-get -qq --yes upgrade
 
     # Get github code. git must be installed before, even if defined in packages.txt!
-    ${apt_get} install git
+    sudo apt-get -qq --yes install git
     cd "${HOME_DIR}"
     git clone ${GIT_URL} --branch "${GIT_BRANCH}"
 }

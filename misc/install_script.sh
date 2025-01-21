@@ -42,6 +42,7 @@ create_config_file() {
     # Create empty config file
     touch "${HOME_DIR}/Configuration.conf"
     echo "# Phoniebox config" > "${HOME_DIR}/Configuration.conf"
+    echo " -- Configuration file created."
 }
 
 
@@ -61,14 +62,14 @@ install(){
     echo "User home dir: ${HOME_DIR}"
     echo "################################################"
 
-    create_config_file()
+    create_config_file
 
     # -qq quite mode, active = yes
-    sudo apt-get -qq --yes update
-    sudo apt-get -qq --yes upgrade
+    ${apt_get} update
+    ${apt_get} upgrade
 
     # Get github code. git must be installed before, even if defined in packages.txt!
-    sudo apt-get -qq --yes install git
+    ${apt_get} install git
     cd "${HOME_DIR}"
     git clone ${GIT_URL} --branch "${GIT_BRANCH}"
 }

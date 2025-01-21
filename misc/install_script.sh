@@ -5,8 +5,9 @@
 GIT_BRANCH=${GIT_BRANCH:-main}
 GIT_URL=${GIT_URL:-https://github.com/clemensgoering/sound-box.git}
 DATETIME=$(date +"%Y%m%d_%H%M%S")
-
+CONFIG_AVAILABLE=false
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
+
 
 checkPrerequisite() {
     if [ "${HOME_DIR}" != "/home/pi" ]; then
@@ -23,9 +24,11 @@ checkPrerequisite() {
         echo "         Please create it and start again."
         exit 2
     fi
+
     if [ -e ${HOME_DIR}/Configuration.conf ]
     then
         echo "Configuration.conf already exists"
+        ${CONFIG_AVAILABLE}=true
     else
         echo "Configuration.conf not existing"
     fi

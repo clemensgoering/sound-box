@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# The absolute path to the folder which contains this script
+# Installation of the sript can be started by calling
+# cd; bash <(wget -qO- https://raw.githubusercontent.com/clemensgoering/sound-box/main/misc/install_script.sh)
+
 GIT_BRANCH=${GIT_BRANCH:-main}
 GIT_URL=${GIT_URL:-https://github.com/clemensgoering/sound-box.git}
 DATETIME=$(date +"%Y%m%d_%H%M%S")

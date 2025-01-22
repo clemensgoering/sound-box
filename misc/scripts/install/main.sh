@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Installation of the sript can be started by calling
-# cd; bash <(wget -qO- https://raw.githubusercontent.com/clemensgoering/sound-box/main/misc/install_script.sh)
+# cd; bash <(wget -qO- https://raw.githubusercontent.com/clemensgoering/sound-box/main/misc/scripts/install/main.sh)
 
 GIT_REPO=${GIT_REPO:-sound-box}
 GIT_BRANCH=${GIT_BRANCH:-main}
@@ -11,7 +11,7 @@ CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
-
+CONFIG_FILE="configuration.conf"
 
 CONTINUE=true
 
@@ -77,19 +77,31 @@ welcome() {
     esac
 }
 
+run_execute() {
+    read -rp "Do you want to start your SoundBox and all Services [Y/n] " response
+    case "$response" in
+        [nN][oO]|[nN])
+            bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/mis/scripts/run/process.sh"
+            finished
+            ;;
+        *)
+            install
+            ;;
+    esac
+}
+
 finished() {
     echo "
 #####################################################
-# INSTALLATION FINISHED
-#####################################################
-Let the sounds begin."
+# Installation processed finished
+#####################################################"
 }
 
 create_config_file() {
     # CONFIG FILE
     # Create empty config file
-    touch "${SOUNDBOX_HOME_DIR}/configuration.conf"
-    echo "# Overall config" > "${SOUNDBOX_HOME_DIR}/configuration.conf"
+    touch "${SOUNDBOX_HOME_DIR}/${CONFIG_FILE}"
+    echo "# Overall config" > "${SOUNDBOX_HOME_DIR}/${CONFIG_FILE}"
     echo "-- Configuration file created."
 }
 
@@ -112,6 +124,7 @@ loading_general_updates(){
 
 loading_nodejs(){        
     local apt_get="sudo apt-get -qq --yes"
+    local npm_install="npm install -g"
     local allow_downgrades="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
     if [[ ${CONTINUE} == "true" ]]; then
         clear
@@ -124,7 +137,8 @@ loading_nodejs(){
         echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
         # globally install express for the docker nodejs application
-        npm install -g express
+        # as well as pm2 to potentially run the server as background process
+        call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install}
         check_continue "Preparing Docker container..."
     fi
 }
@@ -138,6 +152,7 @@ processing_docker(){
 ################################################"
         cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
         npm install
+        npm inststall -g pm2
         echo "-- NodeJS and Docker installation finished"
     fi
 }
@@ -190,7 +205,7 @@ install(){
 ################################
 main() {
     welcome
-    finished
+    run_execute
 }
 
 start=$(date +%s)

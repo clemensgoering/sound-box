@@ -10,15 +10,20 @@
 #/_/   \_\__,_|/ |\__,_|___/\__|_| |_| |_|\___|_| |_|\__|___/
 #____________|__/_____________________________________________                                            
 
+_escape_for_shell() {
+	local escaped="${1//\"/\\\"}"
+	escaped="${escaped//\`/\\\`}"
+    escaped="${escaped//\$/\\\$}"
+	echo "$escaped"
+}
+
 main(){
         mkdir ~/.npm-global
         npm config set prefix '~/.npm-global'
         source ~/.profile
-        # testing by installing a global package
-        echo "Testing: Loading npm package for access checks..."
-        npm install -g jshint
-        echo "Testing completed."
-        npm uninstall jshint
+        echo "export PATH=~/.npm-global/bin:\"$(_escape_for_shell "$PATH")\"" >> "$1/.profile"
+        echo "-- Npm adjustments completed."
+        
 }
 
 main

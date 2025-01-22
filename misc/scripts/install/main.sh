@@ -132,11 +132,13 @@ loading_nodejs(){
     if [[ ${CONTINUE} == "true" ]]; then
         clear
         echo "
- _   _           _          _     
-| \ | | ___   __| | ___    | |___ 
-|  \| |/ _ \ / _. |/ _ \_  | / __|
-| |\  | (_) | (_| |  __/ |_| \__ \
-|_| \_|\___/ \__,_|\___|\___/|___/"
+______________________________    
+                | |    (_)    
+ _ __   ___   __| | ___ _ ___ 
+| '_ \ / _ \ / _. |/ _ \ / __|
+| | | | (_) | (_| |  __/ \__ \
+|_| |_|\___/ \__,_|\___| |___/
+_______________________/_|____"
         # adjusting the node_modules auth
         # so package installation can be done in that folder 
         echo ""
@@ -146,9 +148,7 @@ loading_nodejs(){
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
 
         # npm specific adjustments
-        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/npm_adjustment.sh"
-
-        export PATH=~/.npm-global/bin:$PATH
+        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/npm_adjustment.sh" ${SOUNDBOX_HOME_DIR}
         # globally install express for the docker nodejs application
         # as well as pm2 to potentially run the server as background process
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install} install

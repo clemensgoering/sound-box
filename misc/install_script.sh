@@ -158,6 +158,8 @@ loading_git(){
         cd "${SOUNDBOX_HOME_DIR}"
         git clone ${GIT_URL} --branch "${GIT_BRANCH}"
         echo "-- Fetching git data completed"
+        sudo chmod 775 "${SOUNDBOX_HOME_DIR}/${GIT_REPO}"
+        echo "-- Access updated to fetched git folder (775)"
         check_continue "Loading NodeJS Data and Dependencies..."
     fi
 }

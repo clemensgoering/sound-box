@@ -38,7 +38,7 @@ install(){
     echo "-- Starting installation of nvm..."
     nvm install --lts
     node --version
-    echo "-- Npm adjustments completed."
+    echo "-- nvm adjustments completed."
 }
 
 main(){

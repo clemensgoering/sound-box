@@ -127,7 +127,7 @@ loading_general_updates(){
 
 loading_nodejs(){        
     local apt_get="sudo apt-get -qq --yes"
-    local npm_install="npm install -g"
+    local npm_install="sudo npm install -g"
     local allow_downgrades="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
     if [[ ${CONTINUE} == "true" ]]; then
         clear
@@ -150,7 +150,9 @@ _______________________/_|____"
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
         # globally install express for the docker nodejs application
         # as well as pm2 to potentially run the server as background process
+        echo "Loading additional packages like npm..."
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install} install
+        echo "Additional packages loaded..."
         check_continue "Preparing Docker container..."
     fi
 }

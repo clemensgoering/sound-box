@@ -143,7 +143,7 @@ _______________________/_|____"
         # so package installation can be done in that folder 
         echo ""
         echo "-- Loading necessary packages..."
-        # Spotify and node server dependencies / packages
+        cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
         echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
 

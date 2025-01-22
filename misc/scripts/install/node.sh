@@ -25,17 +25,11 @@ fetch(){
     # fetch and start nvm installation / nodejs version manager
     echo "-- nvm installation starting..."
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-}
-
-adjustments(){
-        echo "Starting npm adjustments..."
-        # copy data to profile file, to get it properly loaded
-        sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/replace/.profile.original ~/.bash_profile
-        echo "-- Npm adjustments completed."
+    source ~/.bashrc
 }
 
 install(){
-    echo "-- Starting installation of ."
+    echo "-- Starting installation of nvm..."
     nvm install --lts
     node --version
     echo "-- Npm adjustments completed."
@@ -43,7 +37,6 @@ install(){
 
 main(){
     fetch
-    adjustments  
     install      
 }
 

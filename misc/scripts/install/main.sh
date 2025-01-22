@@ -83,7 +83,7 @@ run_execute() {
         [nN][oO]|[nN])
             echo "
 -- Service execution can always be done via
--- running the following script: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/mis/scripts/run/process.sh"
+-- running the following script: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/process.sh"
             finished
             ;;
         *)
@@ -144,7 +144,7 @@ _______________________/_|____"
         echo ""
         echo "-- Loading necessary packages..."
         # NVM and nodejs installation
-        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/node.sh" ${SOUNDBOX_HOME_DIR}
+        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/node.sh"
         # npm specific adjustments
         cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install

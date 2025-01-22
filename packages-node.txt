@@ -2,5 +2,3 @@
 ca-certificates 
 curl 
 gnupg
-nodejs
-npm

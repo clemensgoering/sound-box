@@ -143,12 +143,11 @@ _______________________/_|____"
         # so package installation can be done in that folder 
         echo ""
         echo "-- Loading necessary packages..."
-        cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
-        echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
-        call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
-
+        # NVM and nodejs installation
+        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/node.sh" ${SOUNDBOX_HOME_DIR}
         # npm specific adjustments
-        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/npm_adjustment.sh" ${SOUNDBOX_HOME_DIR}
+        cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
+        call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
         # globally install express for the docker nodejs application
         # as well as pm2 to potentially run the server as background process
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install} install

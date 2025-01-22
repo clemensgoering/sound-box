@@ -36,7 +36,7 @@ fetch(){
 
 install(){
     echo "-- Starting installation of nvm..."
-    nvm install --lts
+    nvm install node latest
     node --version
     echo "-- nvm adjustments completed."
 }

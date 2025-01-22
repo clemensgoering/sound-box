@@ -60,8 +60,7 @@ welcome() {
 #  /   _____/ ____  __ __  ____    __| _/\_ |__   _______  ___
 #  \_____  \ /  _ \|  |  \/    \  / __ |  | __ \ /  _ \  \/  /
 #  /        (  <_> )  |  /   |  \/ /_/ |  | \_\ (  <_> >    < 
-# /_______  /\____/|____/|___|  /\____ |  |___  /\____/__/\_ \
-#         \/                  \/      \/      \/            \/
+# /_________/\____/|____/|___|__/\_____|  |_____/\____/__/\__\\
 # You are turning your Raspberry Pi into a Soundbox. 
 # Continue with the installation.
 #####################################################"
@@ -81,11 +80,14 @@ run_execute() {
     read -rp "Do you want to start your SoundBox and all Services [Y/n] " response
     case "$response" in
         [nN][oO]|[nN])
-            bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/mis/scripts/run/process.sh"
+            echo "
+-- Service execution can always be done via
+-- running the following script: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/mis/scripts/run/process.sh"
             finished
             ;;
         *)
-            install
+            bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/mis/scripts/run/process.sh"
+            finished
             ;;
     esac
 }
@@ -132,13 +134,17 @@ loading_nodejs(){
 ################################################
 # Nodejs and Docker related tasks...
 ################################################"
+        # adjusting the node_modules auth
+        # so package installation can be done in that folder 
+        sudo chown -R root:$(whoami) /usr/local/lib/node_modules/
+        sudo chmod -R 775 /usr/local/lib/node_modules/
         echo "-- Loading necessary packages..."
         # Spotify and node server dependencies / packages
         echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
         # globally install express for the docker nodejs application
         # as well as pm2 to potentially run the server as background process
-        call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install}
+        call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install} install
         check_continue "Preparing Docker container..."
     fi
 }

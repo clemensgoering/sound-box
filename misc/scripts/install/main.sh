@@ -87,7 +87,7 @@ run_execute() {
             finished
             ;;
         *)
-            bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/mis/scripts/run/process.sh"
+            bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/process.sh"
             finished
             ;;
     esac

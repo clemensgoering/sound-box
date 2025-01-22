@@ -35,6 +35,7 @@ call_with_args_from_file () {
 }
 
 check_continue(){
+    echo ""
     read -rp "Continue next step: '$1'? [Y/n] " response
     case "$response" in
         [nN][oO]|[nN])
@@ -115,7 +116,7 @@ loading_general_updates(){
     echo " GIT_URL ${GIT_URL}"
     echo " User home dir: ${HOME_DIR}"
     echo "------------------------------------------------"
-
+    echo ""
     echo "-- Updating & Upgrading system. Please be patient..."
     # -qq quite mode, active = yes
     ${apt_get} update
@@ -135,18 +136,17 @@ loading_nodejs(){
 | \ | | ___   __| | ___    | |___ 
 |  \| |/ _ \ / _. |/ _ \_  | / __|
 | |\  | (_) | (_| |  __/ |_| \__ \
-|_| \_|\___/ \__,_|\___|\___/|___/   
-_____________________________________________________________________________"
+|_| \_|\___/ \__,_|\___|\___/|___/"
         # adjusting the node_modules auth
         # so package installation can be done in that folder 
-
+        echo ""
         echo "-- Loading necessary packages..."
         # Spotify and node server dependencies / packages
         echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
 
         # npm specific adjustments
-        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/mis/scripts/install/npm_adjustment.sh"
+        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/npm_adjustment.sh"
 
         export PATH=~/.npm-global/bin:$PATH
         # globally install express for the docker nodejs application
@@ -164,12 +164,12 @@ processing_docker(){
 |  _ \  ___   ___| | _____ _ __ 
 | | | |/ _ \ / __| |/ / _ \ '__|
 | |_| | (_) | (__|   <  __/ |   
-|____/ \___/ \___|_|\_\___|_|   
-_____________________________________________________________________________"
+|____/ \___/ \___|_|\_\___|_|"
+        echo ""
+        echo "-- Docker dependencies installation starting..."
         cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
         npm install
-        npm inststall -g pm2
-        echo "-- NodeJS and Docker installation finished"
+        echo "-- Docker installation finished"
     fi
 }
 
@@ -183,9 +183,10 @@ loading_git(){
  / _. | | __|  | || '_ \/ __| __/ _. | | |
 | (_| | | |_   | || | | \__ \ || (_| | | |
  \__, |_|\__| |___|_| |_|___/\__\__,_|_|_|
- |___/                                    
- _____________________________________________________________________________"
+ |___/"
         # Get github code. git must be installed before, even if defined in packages.txt!
+        echo ""
+        echo "-- Checking and preparing git init..."
         ${apt_get} install git
         echo "-- Create folder and config file"
         mkdir "${SOUNDBOX_HOME_DIR}"
@@ -193,8 +194,6 @@ loading_git(){
         cd "${SOUNDBOX_HOME_DIR}"
         git clone ${GIT_URL} --branch "${GIT_BRANCH}"
         echo "-- Fetching git data completed"
-        sudo chmod 775 "${SOUNDBOX_HOME_DIR}/${GIT_REPO}"
-        echo "-- Access updated to fetched git folder (775)"
         check_continue "Loading NodeJS Data and Dependencies..."
     fi
 }

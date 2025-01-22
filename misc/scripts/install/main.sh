@@ -110,11 +110,11 @@ create_config_file() {
 loading_general_updates(){
     local apt_get="sudo apt-get -qq --yes"
     clear
-    echo "################################################"
-    echo "GIT_BRANCH ${GIT_BRANCH}"
-    echo "GIT_URL ${GIT_URL}"
-    echo "User home dir: ${HOME_DIR}"
-    echo "################################################"
+    echo "------------- Process Variables ----------------"
+    echo " GIT_BRANCH ${GIT_BRANCH}"
+    echo " GIT_URL ${GIT_URL}"
+    echo " User home dir: ${HOME_DIR}"
+    echo "------------------------------------------------"
 
     echo "-- Updating & Upgrading system. Please be patient..."
     # -qq quite mode, active = yes
@@ -131,17 +131,24 @@ loading_nodejs(){
     if [[ ${CONTINUE} == "true" ]]; then
         clear
         echo "
-################################################
-# Nodejs and Docker related tasks...
-################################################"
+ _   _           _          _     
+| \ | | ___   __| | ___    | |___ 
+|  \| |/ _ \ / _. |/ _ \_  | / __|
+| |\  | (_) | (_| |  __/ |_| \__ \
+|_| \_|\___/ \__,_|\___|\___/|___/   
+_____________________________________________________________________________"
         # adjusting the node_modules auth
         # so package installation can be done in that folder 
-        sudo chown -R root:$(whoami) /usr/local/lib/node_modules/
-        sudo chmod -R 775 /usr/local/lib/node_modules/
+
         echo "-- Loading necessary packages..."
         # Spotify and node server dependencies / packages
         echo "-- // Loading packages from: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt"
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
+
+        # npm specific adjustments
+        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/mis/scripts/install/npm_adjustment.sh"
+
+        export PATH=~/.npm-global/bin:$PATH
         # globally install express for the docker nodejs application
         # as well as pm2 to potentially run the server as background process
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install} install
@@ -153,9 +160,12 @@ processing_docker(){
     if [[ ${CONTINUE} == "true" ]]; then
         clear
         echo "
-################################################
-# Docker installation and preparation
-################################################"
+ ____             _             
+|  _ \  ___   ___| | _____ _ __ 
+| | | |/ _ \ / __| |/ / _ \ '__|
+| |_| | (_) | (__|   <  __/ |   
+|____/ \___/ \___|_|\_\___|_|   
+_____________________________________________________________________________"
         cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
         npm install
         npm inststall -g pm2
@@ -168,9 +178,13 @@ loading_git(){
     if [[ ${CONTINUE} == "true" ]]; then
         clear
         echo "
-################################################
-# Installing Git and all dependencies...
-################################################"
+       _ _     ___           _        _ _ 
+  __ _(_) |_  |_ _|_ __  ___| |_ __ _| | |
+ / _. | | __|  | || '_ \/ __| __/ _. | | |
+| (_| | | |_   | || | | \__ \ || (_| | | |
+ \__, |_|\__| |___|_| |_|___/\__\__,_|_|_|
+ |___/                                    
+ _____________________________________________________________________________"
         # Get github code. git must be installed before, even if defined in packages.txt!
         ${apt_get} install git
         echo "-- Create folder and config file"

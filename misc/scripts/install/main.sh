@@ -146,6 +146,7 @@ _______________________/_|____"
         # NVM and nodejs installation
         bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/node.sh"
         # npm specific adjustments
+        echo "Installing additional packackes for npm..."
         cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
         # globally install express for the docker nodejs application

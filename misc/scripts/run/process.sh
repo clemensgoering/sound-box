@@ -24,7 +24,8 @@ SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 ################################
 main() {
     cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
-    pm2 start npm -- starten
+    pm2 init
+    pm2 start docker-compose.yml
 }
 
 

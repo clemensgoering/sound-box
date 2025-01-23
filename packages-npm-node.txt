@@ -1,3 +1,6 @@
 # npm installations for the Nodejs server and docker background process
 express
 pm2
+pg
+sequelize
+jest

@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "pm2_exec": "pm2 start process.json",
+    "start": "node ./bin/www",
+    "test": "jest /test/database.test.js",
+    "migrate": "node ./bin/migrate.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

@@ -77,28 +77,29 @@ welcome() {
     esac
 }
 
-run_execute() {
-    read -rp "Do you want to start your SoundBox and all Services [Y/n] " response
+prepare_autostart() {
+    # copy files
+    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.service /etc/systemd/system/soundbox-autostart.service
+    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.sh /usr/local/bin/soundbox-autostart.sh
+    sudo chmod 744 /usr/local/bin/soundbox-autostart.sh
+    sudo chmod 664 /etc/systemd/system/soundbox-autostart.service
+    sudo systemctl daemon-reload
+    sudo systemctl /etc/systemd/system/soundbox-autostart.service
+    echo ""
+    echo "System needs to be restarted to enable all services."
+    echo "Soundbox has been added to the boot process and will automatically started on reboot."
+    read -rp "Ready to restart your device [Y/n] " response
     case "$response" in
         [nN][oO]|[nN])
-            echo "
--- Service execution can always be done via
--- running the following script: ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/process.sh"
-            finished
+            sudo reboot
             ;;
         *)
-            bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/process.sh"
-            finished
+            sudo reboot
             ;;
     esac
 }
 
-finished() {
-    echo "
-#####################################################
-# Installation processed finished
-#####################################################"
-}
+
 
 create_config_file() {
     # CONFIG FILE
@@ -152,6 +153,7 @@ _______________________/_|____"
         # globally install express for the docker nodejs application
         # as well as pm2 to potentially run the server as background process
         echo "Loading additional packages like npm..."
+        # npm, postgre, sequelize and others like pm2
         call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install} install
         echo "Additional packages loaded..."
         check_continue "Preparing Docker container..."
@@ -226,7 +228,7 @@ install(){
 ################################
 main() {
     welcome
-    run_execute
+    prepare_autostart
 }
 
 start=$(date +%s)

@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Execution script which is meant to be executed after the installation
-# has been completed.
 #####################################################
 #   _________                        .______.                 
 #  /   _____/ ____  __ __  ____    __| _/\_ |__   _______  ___
@@ -8,24 +6,22 @@
 #  /        (  <_> )  |  /   |  \/ /_/ |  | \_\ (  <_> >    < 
 # /_______  /\____/|____/|___|  /\____ |  |___  /\____/__/\_ \
 #         \/                  \/      \/      \/            \/
-# You are turning your Raspberry Pi into a Soundbox. 
-# Continue with the installation.
+# Autostart Script
 #####################################################"
 
 GIT_REPO=${GIT_REPO:-sound-box}
 CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
-
+TIMESTAMP=$(date +%s)
 ################################
 # 
 # Main
 #  
 ################################
 main() {
-    cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
-    pm2 init
-    pm2 start docker-compose.yml
+    echo "${TIMESTAMP}: Autostart SoundBox running..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
+    bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh"
 }
 
 

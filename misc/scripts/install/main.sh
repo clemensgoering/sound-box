@@ -2,17 +2,11 @@
 # Installation of the sript can be started by calling
 # cd; bash <(wget -qO- https://raw.githubusercontent.com/clemensgoering/sound-box/main/misc/scripts/install/main.sh)
 
-GIT_REPO=${GIT_REPO:-sound-box}
-GIT_BRANCH=${GIT_BRANCH:-main}
-GIT_URL=${GIT_URL:-https://github.com/clemensgoering/sound-box.git}
+# general variables
+source var.sh
+#local specific variables
 DATETIME=$(date +"%Y%m%d_%H%M%S")
-
-CURRENT_USER="${SUDO_USER:-$(whoami)}"
-HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
-
-SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 CONFIG_FILE="configuration.conf"
-
 CONTINUE=true
 
 ################################
@@ -27,12 +21,6 @@ _escape_for_shell() {
 	echo "$escaped"
 }
 
-call_with_args_from_file () {
-    local package_file="$1"
-    shift
-
-    sed 's|#.*||g' ${package_file} | xargs "$@"
-}
 
 check_continue(){
     echo ""
@@ -77,32 +65,10 @@ welcome() {
     esac
 }
 
-prepare_autostart() {
-    # copy files
-    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.service /etc/systemd/system/soundbox-autostart.service
-    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.sh /usr/local/bin/soundbox-autostart.sh
-    sudo chmod 744 /usr/local/bin/soundbox-autostart.sh
-    sudo chmod 664 /etc/systemd/system/soundbox-autostart.service
-    sudo systemctl daemon-reload
-    sudo systemctl /etc/systemd/system/soundbox-autostart.service
-    echo ""
-    echo "System needs to be restarted to enable all services."
-    echo "Soundbox has been added to the boot process and will automatically started on reboot."
-    read -rp "Ready to restart your device [Y/n] " response
-    case "$response" in
-        [nN][oO]|[nN])
-            sudo reboot
-            ;;
-        *)
-            sudo reboot
-            ;;
-    esac
-}
-
-
 
 create_config_file() {
     # CONFIG FILE
+    mkdir "${SOUNDBOX_HOME_DIR}"
     # Create empty config file
     touch "${SOUNDBOX_HOME_DIR}/${CONFIG_FILE}"
     echo "# Overall config" > "${SOUNDBOX_HOME_DIR}/${CONFIG_FILE}"
@@ -126,78 +92,28 @@ loading_general_updates(){
     check_continue "Loading GIT Data"
 }
 
+prepare_autostart() {
+    # copy files
+    bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/autostart.sh"
+}
+
 loading_nodejs(){        
-    local apt_get="sudo apt-get -qq --yes"
-    local npm_install="sudo npm install -g"
-    local allow_downgrades="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
+
     if [[ ${CONTINUE} == "true" ]]; then
-        clear
-        echo "
-______________________________    
-                | |    (_)    
- _ __   ___   __| | ___ _ ___ 
-| '_ \ / _ \ / _. |/ _ \ / __|
-| | | | (_) | (_| |  __/ \__ \\
-|_| |_|\___/ \__,_|\___| |___/
-_______________________/_|____"
-        # adjusting the node_modules auth
-        # so package installation can be done in that folder 
-        echo ""
-        echo "-- Loading necessary packages..."
-        # NVM and nodejs installation
         bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/node.sh"
-        # npm specific adjustments
-        echo "Installing additional packackes for npm..."
-        cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
-        call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-node.txt" ${apt_get} ${allow_downgrades} install
-        # globally install express for the docker nodejs application
-        # as well as pm2 to potentially run the server as background process
-        echo "Loading additional packages like npm..."
-        # npm, postgre, sequelize and others like pm2
-        call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/packages-npm-node.txt" ${npm_install} install
-        echo "Additional packages loaded..."
         check_continue "Preparing Docker container..."
     fi
 }
 
 processing_docker(){
     if [[ ${CONTINUE} == "true" ]]; then
-        clear
-        echo "
- ____             _             
-|  _ \  ___   ___| | _____ _ __ 
-| | | |/ _ \ / __| |/ / _ \ '__|
-| |_| | (_) | (__|   <  __/ |   
-|____/ \___/ \___|_|\_\___|_|"
-        echo ""
-        echo "-- Docker dependencies installation starting..."
-        cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
-        npm install
-        echo "-- Docker installation finished"
+        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/docker.sh"
     fi
 }
 
 loading_git(){    
-    local apt_get="sudo apt-get -qq --yes"
     if [[ ${CONTINUE} == "true" ]]; then
-        clear
-        echo "
-       _ _     ___           _        _ _ 
-  __ _(_) |_  |_ _|_ __  ___| |_ __ _| | |
- / _. | | __|  | || '_ \/ __| __/ _. | | |
-| (_| | | |_   | || | | \__ \ || (_| | | |
- \__, |_|\__| |___|_| |_|___/\__\__,_|_|_|
- |___/"
-        # Get github code. git must be installed before, even if defined in packages.txt!
-        echo ""
-        echo "-- Checking and preparing git init..."
-        ${apt_get} install git
-        echo "-- Create folder and config file"
-        mkdir "${SOUNDBOX_HOME_DIR}"
-        create_config_file
-        cd "${SOUNDBOX_HOME_DIR}"
-        git clone ${GIT_URL} --branch "${GIT_BRANCH}"
-        echo "-- Fetching git data completed"
+        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/git.sh"
         check_continue "Loading NodeJS Data and Dependencies..."
     fi
 }
@@ -205,8 +121,8 @@ loading_git(){
 install(){    
     #clear console
     clear
-
     loading_general_updates
+    create_config_file
     ################################
     # GIT
     ################################
@@ -220,6 +136,9 @@ install(){
 
 }
 
+logger(){
+    bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/logger.sh" $1
+}
 
 ################################
 # 
@@ -227,6 +146,7 @@ install(){
 #  
 ################################
 main() {
+    logger "Installation started..."
     welcome
     prepare_autostart
 }

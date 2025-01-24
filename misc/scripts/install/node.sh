@@ -1,24 +1,17 @@
 #!/usr/bin/env bash
-#_____________________________________________________________
-# _ __  _ __  _ __ ___                                       
-#| '_ \| '_ \| '_ ` _ \                                      
-#| | | | |_) | | | | | |                                     
-#|_| |_| .__/|_|_|_| |_|    _                        _       
-#   / \|_|__| |(_)_   _ ___| |_ _ __ ___   ___ _ __ | |_ ___ 
-#  / _ \ / _` || | | | / __| __| '_ ` _ \ / _ \ '_ \| __/ __|
-# / ___ \ (_| || | |_| \__ \ |_| | | | | |  __/ | | | |_\__ \
-#/_/   \_\__,_|/ |\__,_|___/\__|_| |_| |_|\___|_| |_|\__|___/
-#____________|__/_____________________________________________                                            
-GIT_REPO=${GIT_REPO:-sound-box}
-CURRENT_USER="${SUDO_USER:-$(whoami)}"
-HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
-SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
+source var.sh
 
 _escape_for_shell() {
 	local escaped="${1//\"/\\\"}"
 	escaped="${escaped//\`/\\\`}"
     escaped="${escaped//\$/\\\$}"
 	echo "$escaped"
+}
+
+call_with_args_from_file () {
+    local package_file="$1"
+    shift
+    sed 's|#.*||g' ${package_file} | xargs "$@"
 }
 
 fetch(){
@@ -42,9 +35,42 @@ install(){
     echo "-- nvm adjustments completed."
 }
 
+packages(){
+    
+    local apt_get="sudo apt-get -qq --yes"
+    local npm_install="sudo npm install -g"
+    local allow_downgrades="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
+
+    echo "Inst
+    alling additional packackes for npm..."
+    cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
+    call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/packages/packages-node.txt" ${apt_get} ${allow_downgrades} install
+    # globally install express for the docker nodejs application
+    # as well as pm2 to potentially run the server as background process
+    echo "Loading additional packages like npm..."
+    # npm, postgre, sequelize and others like pm2
+    call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/packages/packages-npm-node.txt" ${npm_install} install
+    echo "Additional packages loaded..."
+}
+
 main(){
+    clear
+    echo "
+______________________________    
+                | |    (_)    
+ _ __   ___   __| | ___ _ ___ 
+| '_ \ / _ \ / _. |/ _ \ / __|
+| | | | (_) | (_| |  __/ \__ \\
+|_| |_|\___/ \__,_|\___| |___/
+_______________________/_|____"
+    # adjusting the node_modules auth
+    # so package installation can be done in that folder 
+    echo ""
+    echo "-- Loading necessary packages..."
+    # NVM and nodejs installation
     fetch
     install      
+    packages
 }
 
 main

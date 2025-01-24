@@ -48,6 +48,11 @@ welcome() {
 # /_________/\____/|____/|___|__/\_____|  |_____/\____/__/\__\\
 # You are turning your Raspberry Pi into a Soundbox. 
 # Continue with the installation.
+"------------- Process Variables ----------------"
+" GIT_BRANCH ${GIT_BRANCH}"
+" GIT_URL ${GIT_URL}"
+" User home dir: ${HOME_DIR}"
+"------------------------------------------------"
 #####################################################"
     read -rp "Continue interactive installation? [Y/n] " response
     case "$response" in
@@ -74,11 +79,6 @@ create_config_file() {
 loading_general_updates(){
     local apt_get="sudo apt-get -qq --yes"
     clear
-    echo "------------- Process Variables ----------------"
-    echo " GIT_BRANCH ${GIT_BRANCH}"
-    echo " GIT_URL ${GIT_URL}"
-    echo " User home dir: ${HOME_DIR}"
-    echo "------------------------------------------------"
     echo ""
     echo "-- Updating & Upgrading system. Please be patient..."
     # -qq quite mode, active = yes

@@ -140,7 +140,7 @@ logger(){
 main() {
     source var.sh
     env
-    logger "Installation started..."
+    #logger "Installation started..."
     welcome
     prepare_autostart
 }

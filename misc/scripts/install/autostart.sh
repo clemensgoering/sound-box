@@ -26,4 +26,4 @@ autostart(){
     esac
 }
 
-autorstart
+autostart

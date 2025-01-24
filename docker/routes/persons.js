@@ -1,8 +1,8 @@
 // persons.js
 
-var express = require('express');
-var router = express.Router();
-var db = require('../database.js');
+const express = require('express');
+const router = express.Router();
+const db = require('../database.js');
 
 router.get("/all", function(req, res) {
     db.Playlist.findAll()
@@ -29,8 +29,8 @@ router.put("/", function(req, res) {
         name: req.body.name,
         id: req.body.id
         })
-        .then( playlis => {
-            res.status(200).send(JSON.stringify(playlis));
+        .then( playlist => {
+            res.status(200).send(JSON.stringify(playlist));
         })
         .catch( err => {
             res.status(500).send(JSON.stringify(err));

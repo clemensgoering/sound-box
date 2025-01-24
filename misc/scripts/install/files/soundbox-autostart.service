@@ -1,14 +1,12 @@
 [Unit]
-Description=Phoniebox RFID-Reader Service
+Description=Soundbox Service
 After=network.target iptables.service firewalld.service
 
 [Service]
-User=pi
-Group=pi
 Restart=always
-WorkingDirectory=/home/pi/RPi-Jukebox-RFID
-ExecStart=/usr/local/bin/soundbox-autostart.sh
+WorkingDirectory=/home/pi/Sound-Box
+ExecStart=/home/pi/Sound-Box/sound-box/misc/scripts/run/start
 Nice=15
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

@@ -12,6 +12,10 @@ autostart(){
     sudo chmod 664 /etc/systemd/system/soundbox-autostart.service
     sudo systemctl daemon-reload
     sudo systemctl /etc/systemd/system/soundbox-autostart.service
+    sudo chown root:root /usr/local/bin/soundbox-autostart.sh
+    # enable the services needed
+    sudo systemctl enable soundbox-autostart
+
     echo ""
     echo "System needs to be restarted to enable all services."
     echo "Soundbox has been added to the boot process and will automatically started on reboot."

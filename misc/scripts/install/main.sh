@@ -49,7 +49,7 @@ welcome() {
 # You are turning your Raspberry Pi into a Soundbox. 
 # Continue with the installation.
 #------------- Process Variables ----------------
-# GIT_BRANCH "${GIT_BRANCH}"
+# GIT_BRANCH "$GIT_BRANCH"
 # GIT_URL "${GIT_URL}"
 # User home dir: "${HOME_DIR}"
 #------------------------------------------------

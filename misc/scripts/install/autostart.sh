@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
+GIT_REPO=${GIT_REPO:-sound-box}
+
+CURRENT_USER="${SUDO_USER:-$(whoami)}"
+HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
+SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 
 autostart(){
-    source var.sh
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.service /etc/systemd/system/soundbox-autostart.service
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.sh /usr/local/bin/soundbox-autostart.sh
     sudo chmod 744 /usr/local/bin/soundbox-autostart.sh

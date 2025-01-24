@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
+GIT_BRANCH=${GIT_BRANCH:-main}
+GIT_URL=${GIT_URL:-https://github.com/clemensgoering/sound-box.git}
+
+CURRENT_USER="${SUDO_USER:-$(whoami)}"
+HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
+SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 
 git(){
-    source var.sh
     local apt_get="sudo apt-get -qq --yes"
 
     clear

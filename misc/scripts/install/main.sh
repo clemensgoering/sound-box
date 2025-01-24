@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 # Installation of the sript can be started by calling
 # cd; bash <(wget -qO- https://raw.githubusercontent.com/clemensgoering/sound-box/main/misc/scripts/install/main.sh)
+GIT_REPO=${GIT_REPO:-sound-box}
+GIT_BRANCH=${GIT_BRANCH:-main}
+GIT_URL=${GIT_URL:-https://github.com/clemensgoering/sound-box.git}
 
+CURRENT_USER="${SUDO_USER:-$(whoami)}"
+HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
+SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 #local specific variables
 DATETIME=$(date +"%Y%m%d_%H%M%S")
 CONFIG_FILE="configuration.conf"
@@ -138,8 +144,6 @@ logger(){
 #  
 ################################
 main() {
-    source var.sh
-    env
     #logger "Installation started..."
     welcome
     prepare_autostart

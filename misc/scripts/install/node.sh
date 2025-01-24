@@ -45,8 +45,7 @@ packages(){
     local npm_install="sudo npm install -g"
     local allow_downgrades="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
 
-    echo "Inst
-    alling additional packackes for npm..."
+    echo "Installing additional packackes for npm..."
     cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
     call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/packages/packages-node.txt" ${apt_get} ${allow_downgrades} install
     # globally install express for the docker nodejs application

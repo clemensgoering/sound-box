@@ -5,7 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const personsRouter = require('./routes/persons');
+const playlistRoute = require('./routes/playlist');
 
 const app = express();
 
@@ -15,6 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/persons', personsRouter);
+app.use('/playlist', playlistRoute);
 
 module.exports = app;

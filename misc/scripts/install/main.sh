@@ -10,9 +10,7 @@ CONFIG_FILE="configuration.conf"
 CONTINUE=true
 
 ################################
-#
 # Helper functions for processing within the installation script
-#
 ################################
 _escape_for_shell() {
 	local escaped="${1//\"/\\\"}"
@@ -123,13 +121,9 @@ install(){
     clear
     loading_general_updates
     create_config_file
-    ################################
     # GIT
-    ################################
     loading_git
-    ################################
     # NodeJS and Docker
-    ################################
     loading_nodejs
     processing_docker
 

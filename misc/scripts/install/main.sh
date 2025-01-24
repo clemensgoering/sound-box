@@ -2,8 +2,6 @@
 # Installation of the sript can be started by calling
 # cd; bash <(wget -qO- https://raw.githubusercontent.com/clemensgoering/sound-box/main/misc/scripts/install/main.sh)
 
-# general variables
-source var.sh
 #local specific variables
 DATETIME=$(date +"%Y%m%d_%H%M%S")
 CONFIG_FILE="configuration.conf"
@@ -140,6 +138,7 @@ logger(){
 #  
 ################################
 main() {
+    . var.sh
     logger "Installation started..."
     welcome
     prepare_autostart

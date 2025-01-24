@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-source var.sh
 
 git(){
+    source var.sh
     local apt_get="sudo apt-get -qq --yes"
+
     clear
     echo "
        _ _     ___           _        _ _ 

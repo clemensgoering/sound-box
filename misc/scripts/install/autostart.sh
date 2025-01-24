@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-source var.sh
 
 autostart(){
+    source var.sh
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.service /etc/systemd/system/soundbox-autostart.service
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.sh /usr/local/bin/soundbox-autostart.sh
     sudo chmod 744 /usr/local/bin/soundbox-autostart.sh

@@ -138,7 +138,7 @@ logger(){
 #  
 ################################
 main() {
-    . var.sh
+    source var.sh
     logger "Installation started..."
     welcome
     prepare_autostart

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-source var.sh
 
 main(){
+        source var.sh
         clear
         echo "
  ____             _             

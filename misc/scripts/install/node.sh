@@ -54,6 +54,7 @@ packages(){
 }
 
 main(){
+    source var.sh
     clear
     echo "
 ______________________________    

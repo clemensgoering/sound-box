@@ -30,7 +30,11 @@ main() {
     # application in a docker container via pm2
     npm run pm2_exec 
     # start postgresql database
+    echo "Build container..."
     docker build -t soundbox
+    echo "Adjusting access level..."
+    sudo chmod 666 /var/run/docker.sock
+    echo "Run the container..."
     docker compose up -d
     # migrate, script from packages file
     npm run migrate

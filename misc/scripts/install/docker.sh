@@ -34,6 +34,10 @@ main(){
         echo "-- Installing dependencies from Nodejs application at docker folder ..."
         cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
         npm install
+        echo "Postgres setup starting..."
+        docker run -it -e "POSTGRES_HOST_AUTH_METHOD=trust" -p 5432:5432 postgres
+        echo "Postgres migration starting..."
+        npm run migrate
         echo "-- Docker installation finished"
 }
 

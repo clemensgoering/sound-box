@@ -11,7 +11,8 @@ autostart(){
     # remove and disable old services
     echo "Remove and disable old services..."
     sudo systemctl disable soundbox-autostart
-    sudo rm "${systemd_dir}"/soundbox-autostart
+    sudo rm "${systemd_dir}"/soundbox-autostart.service
+    sudo rm /usr/local/bin/soundbox-autostart.sh
 
     echo "Copy scripts to system location..."
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.service "${systemd_dir}"/soundbox-autostart.service

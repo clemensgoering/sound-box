@@ -83,11 +83,11 @@ create_config_file() {
 }
 
 loading_general_updates(){
+    # -qq: Quiet. Produces output suitable for logging, omitting progress indicators. 
     local apt_get="sudo apt-get -qq --yes"
     clear
     echo ""
     echo "-- Updating & Upgrading system. Please be patient..."
-    # -qq quite mode, active = yes
     ${apt_get} update
     ${apt_get} upgrade
     echo "-- Update completed."

@@ -31,11 +31,14 @@ main() {
     npm run pm2_exec 
     # start postgresql database
     echo "Build container..."
-    docker build -t soundbox
+    # Option 1. using dockerfile 
+    # docker build -t soundbox
     echo "Adjusting access level..."
     sudo chmod 666 /var/run/docker.sock
     echo "Run the container..."
-    docker-compose up --build
+    # docker-compose will use the docker-compose.yml to 
+    # build the service
+    docker-compose up -d --build
     # migrate, script from packages file
     npm run migrate
 }

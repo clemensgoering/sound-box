@@ -21,14 +21,10 @@ TIMESTAMP=$(date +%s)
 #  
 ################################
 main() {
-if [ -e ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]
-then
-    # logger file exists, no need to create it
-else
+if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]; then
     # create logger file
     touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt
 fi
-
     echo "${TIMESTAMP}: Autostart SoundBox running..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
     bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh"
 }

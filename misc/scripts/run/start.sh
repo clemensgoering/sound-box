@@ -30,7 +30,8 @@ main() {
     # application in a docker container via pm2
     npm run pm2_exec 
     # start postgresql database
-    docker run -it -e "POSTGRES_HOST_AUTH_METHOD=trust" -p 5432:5432 postgres
+    docker build -t soundbox
+    docker run -it -p 3000:3000 soundbox
     # migrate, script from packages file
     npm run migrate
 }

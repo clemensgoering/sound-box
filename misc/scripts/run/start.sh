@@ -16,6 +16,7 @@ GIT_REPO=${GIT_REPO:-sound-box}
 CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 SOUNDBOX_HOME_DIR="${HOME_DIR}"
+TIMESTAMP=$(date +%s)
 
 ################################
 # 
@@ -23,12 +24,10 @@ SOUNDBOX_HOME_DIR="${HOME_DIR}"
 #  
 ################################
 main() {
-
+    echo "${TIMESTAMP}: Autostart: SoundBox initialized..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
+    # postgre
     cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"
-    pm2 init
     # executing script command to start the 
-    # application in a docker container via pm2
-    npm run pm2_exec 
     # start postgresql database
     echo "Build container..."
     # Option 1. using dockerfile 
@@ -40,7 +39,10 @@ main() {
     # build the service
     docker-compose up -d --build
     # migrate, script from packages file
-    npm run migrate
+    # - docker run -it -e "POSTGRES_HOST_AUTH_METHOD=trust" -p 5432:5432 postgres > /dev/null 2>&1
+    # migrate would need to be executed in another
+    # - npm run migrate
+    echo "${TIMESTAMP}: Autostart: SoundBox completed..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
 }
 
 

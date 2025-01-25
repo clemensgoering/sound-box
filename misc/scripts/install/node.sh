@@ -50,9 +50,8 @@ packages(){
     cd ${SOUNDBOX_HOME_DIR}/${GIT_REPO}
     call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/packages/packages-node.txt" ${apt_get} ${allow_downgrades} install
     # globally install express for the docker nodejs application
-    # as well as pm2 to potentially run the server as background process
     echo "Loading additional packages like npm..."
-    # npm, postgre, sequelize and others like pm2
+    # npm, postgre, sequelize
     call_with_args_from_file "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/packages/packages-npm-node.txt" ${npm_install} install
     echo "Additional packages loaded..."
 }

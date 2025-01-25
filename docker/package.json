@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "pm2_exec": "pm2 start process.json",
     "start": "node ./bin/www",
-    "test": "jest /test/database.test.js",
+    "test": "jest",
     "migrate": "node ./bin/migrate.js"
   },
   "dependencies": {
-    "http-errors": "~1.6.3",    
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.18.2",
     "morgan": "~1.9.1",
     "pg": "^8.7.3",
-    "sequelize": "^6.29.0",
+    "sequelize": "^6.29.0"
+  },
+  "devDependencies": {
     "jest": "^28.0.3"
   }
 }

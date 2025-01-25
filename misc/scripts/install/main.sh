@@ -77,7 +77,7 @@ create_config_file() {
     # CONFIG FILE
     mkdir "${SOUNDBOX_HOME_DIR}"
     # Create empty config file
-    touch "${SOUNDBOX_HOME_DIR}/${CONFIG_FILE}"
+    touch "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/${CONFIG_FILE}"
     echo "# Overall config" > "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/${CONFIG_FILE}"
     echo "-- Configuration file created."
 }

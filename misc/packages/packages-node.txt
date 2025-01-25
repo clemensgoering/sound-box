@@ -1,4 +1,5 @@
 # Nodejs and webserver related packages
+# certificates and curl needed for things like docker and co
 ca-certificates 
 curl 
 gnupg

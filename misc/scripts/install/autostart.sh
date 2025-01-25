@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Remarks:
+# To check which services are enabled and running after reboot:
+# sudo systemctl --all list-unit-files --type=service
+
 GIT_REPO=${GIT_REPO:-sound-box}
 
 CURRENT_USER="${SUDO_USER:-$(whoami)}"

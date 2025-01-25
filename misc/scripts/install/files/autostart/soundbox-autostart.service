@@ -1,6 +1,6 @@
 [Unit]
 Description=Soundbox Service
-After=network.target
+After=network.target iptables.service firewalld.service
 
 [Service]
 Restart=always

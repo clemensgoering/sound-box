@@ -19,8 +19,8 @@ autostart(){
     sudo rm /usr/local/bin/soundbox-autostart.sh
 
     echo "Copy scripts to system location..."
-    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.service "${systemd_dir}"/soundbox-autostart.service
-    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/soundbox-autostart.sh /usr/local/bin/soundbox-autostart.sh
+    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/autostart/soundbox-autostart.service "${systemd_dir}"/soundbox-autostart.service
+    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/autostart/soundbox-autostart.sh /usr/local/bin/soundbox-autostart.sh
 
     echo "Auth changes required..."
     sudo chmod 744 /usr/local/bin/soundbox-autostart.sh

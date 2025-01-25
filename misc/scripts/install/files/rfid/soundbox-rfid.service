@@ -1,0 +1,11 @@
+[Unit]
+Description=soundbox-rfid
+After=network.target iptables.service firewalld.service
+
+[Service]
+Restart=always
+ExecStart=/usr/local/bin/soundbox-rfid.sh
+Nice=15
+
+[Install]
+WantedBy=default.target

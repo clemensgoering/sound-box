@@ -95,8 +95,15 @@ loading_general_updates(){
 }
 
 prepare_autostart() {
-    # copy files
+    # autostart configuration mandatory
+    # no continue check required
     bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/autostart.sh"
+}
+
+prepare_rfid(){
+    # autostart configuration mandatory
+    # no continue check required
+    bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/rfid.sh"
 }
 
 loading_nodejs(){        
@@ -163,6 +170,7 @@ main() {
     #logger "Installation started..."
     welcome
     prepare_autostart
+    prepare_rfid
 }
 
 start=$(date +%s)

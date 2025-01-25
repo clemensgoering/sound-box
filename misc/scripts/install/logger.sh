@@ -9,5 +9,5 @@ if [ -e ../../logger.txt ]
 then
     echo -e "$1\n" >> "${SOUNDBOX_HOME_DIR}/logger.txt"
 else
-    echo "Logger: Process could not be logged. Logger File missing
+    echo "Logger: Process could not be logged. Logger File missing"
 fi

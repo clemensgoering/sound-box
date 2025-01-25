@@ -14,12 +14,21 @@ CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
 TIMESTAMP=$(date +%s)
+
 ################################
 # 
 # Main
 #  
 ################################
 main() {
+if [ -e ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]
+then
+    # logger file exists, no need to create it
+else
+    # create logger file
+    touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt
+fi
+
     echo "${TIMESTAMP}: Autostart SoundBox running..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
     bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh"
 }

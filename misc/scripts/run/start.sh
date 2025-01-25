@@ -31,7 +31,7 @@ main() {
     npm run pm2_exec 
     # start postgresql database
     docker build -t soundbox
-    docker run -it -p 3000:3000 soundbox
+    docker compose up -d
     # migrate, script from packages file
     npm run migrate
 }

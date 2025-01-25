@@ -4,7 +4,6 @@ After=network.target
 
 [Service]
 Restart=always
-WorkingDirectory=/home/pi/Sound-Box
 ExecStart=/usr/local/bin/soundbox-autostart.sh
 Nice=15
 

@@ -4,7 +4,7 @@ GIT_URL=${GIT_URL:-https://github.com/clemensgoering/sound-box.git}
 
 CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
-SOUNDBOX_HOME_DIR="${HOME_DIR}/Sound-Box"
+SOUNDBOX_HOME_DIR="${HOME_DIR}"
 
 git(){
     local apt_get="sudo apt-get -qq --yes"

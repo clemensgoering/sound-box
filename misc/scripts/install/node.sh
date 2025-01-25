@@ -24,7 +24,8 @@ fetch(){
     # create profile file
     touch ~/.bashrc
     # copy content from installations raw to actual profile document
-    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/.bashrc ~/.bashrc
+    # contains common bashrc content including the necessary export for nvm
+    sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/.bashrc.sample ~/.bashrc
     # fetch and execute installation script
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
     # source to overcome reload of the terminal

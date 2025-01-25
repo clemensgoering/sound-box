@@ -29,7 +29,7 @@ main(){
         sudo apt-get update
         # installing the latest verion..
         echo "Installing latest version ..."
-        sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+        sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-compose
         echo ""
         echo "-- Installing dependencies from Nodejs application at docker folder ..."
         cd "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker"

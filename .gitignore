@@ -1,3 +1,4 @@
 install.original.sh
 /docker/node_modules
 .vscode
+/docker/.env

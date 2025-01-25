@@ -3,7 +3,7 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: pg1234
     ports: 
       - '5430:5432'
     volumes:
@@ -15,7 +15,7 @@ services:
     environment:
       DB_SCHEMA: postgres
       DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_PASSWORD: pg1234
       DB_HOST: postgres
     depends_on:
       - postgres

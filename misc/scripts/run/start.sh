@@ -35,7 +35,7 @@ main() {
     echo "Adjusting access level..."
     sudo chmod 666 /var/run/docker.sock
     echo "Run the container..."
-    docker compose up -d
+    docker-compose up --build
     # migrate, script from packages file
     npm run migrate
 }

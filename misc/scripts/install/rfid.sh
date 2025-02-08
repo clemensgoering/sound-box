@@ -13,9 +13,9 @@ main(){
     git clone https://github.com/lthiery/SPI-Py.git
     cd SPI-Py
     sudo python setup.py install
-    cd ..
+    cd
     git clone https://github.com/mxgxw/MFRC522-python.git && cd MFRC522-python
-    
+
     echo "Activating SPI...\n"
     sudo raspi-config nonint do_spi 0
 

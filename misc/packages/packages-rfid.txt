@@ -6,3 +6,4 @@
 
 spidev # dep of pi-rc522
 pi-rc522==2.3.0
+RPi.GPIO==0.6.3

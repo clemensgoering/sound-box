@@ -14,7 +14,8 @@ main(){
     cd SPI-Py
     sudo python3 setup.py install
     cd
-    git clone https://github.com/mxgxw/MFRC522-python.git && cd MFRC522-python
+    sudo python3 -m pip install --upgrade --force-reinstall --no-deps -q -r "${SOUNDBOX_HOME_DIR}"/misc/packages/packages-rfid.txt
+
 
     echo "Activating SPI...\n"
     sudo raspi-config nonint do_spi 0

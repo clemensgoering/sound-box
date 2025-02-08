@@ -31,6 +31,10 @@ main(){
     echo "Restarting rfid-reader service...\n"
     sudo systemctl restart soundbox-rfid.service
 
+    if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/rfid.txt ]; then
+        # create logger file
+        touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/rfid.txt
+    fi
     echo "Done.\n"
 }
 

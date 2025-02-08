@@ -19,7 +19,7 @@ main(){
     echo "Activating SPI...\n"
     sudo raspi-config nonint do_spi 0
 
-    echo "Configure RFID reader in Phoniebox...\n"
+    echo "Configure RFID reader...\n"
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/soundbox-rfid.service "${systemd_dir}"/soundbox-rfid.service
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/soundbox-rfid.sh /usr/local/bin/soundbox-rfid.sh
 

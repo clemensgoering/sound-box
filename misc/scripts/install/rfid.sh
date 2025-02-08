@@ -10,7 +10,11 @@ SOUNDBOX_HOME_DIR="${HOME_DIR}"
 main(){
     echo "Installing Python requirements for RC522...\n"
     sudo apt install python3-pip
+    
     git clone https://github.com/lthiery/SPI-Py.git
+    git checkout 8cce26b9ee6e69eb041e9d5665944b88688fca68
+    sudo python setup.py install
+
     cd SPI-Py
     sudo python3 setup.py install
     cd

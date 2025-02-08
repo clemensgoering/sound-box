@@ -15,6 +15,7 @@ autostart(){
     # remove and disable old services
     echo "Remove and disable old services..."
     sudo systemctl disable soundbox-autostart
+    # remove potentially existing services from previous installations
     sudo rm "${systemd_dir}"/soundbox-autostart.service
     sudo rm /usr/local/bin/soundbox-autostart.sh
 

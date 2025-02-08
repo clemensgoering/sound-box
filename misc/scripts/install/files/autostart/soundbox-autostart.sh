@@ -13,7 +13,7 @@ GIT_REPO=${GIT_REPO:-sound-box}
 CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 SOUNDBOX_HOME_DIR="${HOME_DIR}"
-TIMESTAMP=$(date)
+DATETIME=$(date +"%Y%m%d_%H%M%S")
 
 ################################
 # 
@@ -25,7 +25,7 @@ if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]; then
     # create logger file
     touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt
 fi
-    echo "${TIMESTAMP}: Autostart SoundBox running..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
+    echo "${DATETIME}: Autostart SoundBox running..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
     bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh"
 }
 

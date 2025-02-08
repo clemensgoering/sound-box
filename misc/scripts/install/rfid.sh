@@ -9,8 +9,13 @@ SOUNDBOX_HOME_DIR="${HOME_DIR}"
 
 main(){
     echo "Installing Python requirements for RC522...\n"
-    sudo python3 -m pip install --upgrade --force-reinstall --no-deps -q -r "${SOUNDBOX_HOME_DIR}"/misc/packages/packages-rfid.txt
-
+    sudo apt-get install git python-dev --yes
+    git clone https://github.com/lthiery/SPI-Py.git
+    cd SPI-Py
+    sudo python setup.py install
+    cd ..
+    git clone https://github.com/mxgxw/MFRC522-python.git && cd MFRC522-python
+    
     echo "Activating SPI...\n"
     sudo raspi-config nonint do_spi 0
 

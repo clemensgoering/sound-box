@@ -24,7 +24,7 @@ autostart(){
 
     echo "Auth changes required..."
     sudo chmod 744 /usr/local/bin/soundbox-autostart.sh
-    sudo chmod 664 "${systemd_dir}"/soundbox-autostart.service
+    sudo chmod 644 "${systemd_dir}"/soundbox-autostart.service
     sudo chown root:root /usr/local/bin/soundbox-autostart.sh
 
 

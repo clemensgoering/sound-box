@@ -33,13 +33,6 @@ fetch(){
     nvm install node --reinstall-packages-from=node
 }
 
-install(){
-    echo "-- Starting installation of nvm..."
-    nvm install node latest
-    node --version
-    echo "-- nvm adjustments completed."
-}
-
 packages(){
     
     local apt_get="sudo apt-get -qq --yes"
@@ -71,8 +64,7 @@ _______________________/_|____"
     echo ""
     echo "-- Loading necessary packages..."
     # NVM and nodejs installation
-    fetch
-    install      
+    fetch   
     packages
 }
 

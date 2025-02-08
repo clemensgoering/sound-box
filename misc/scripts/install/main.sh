@@ -169,8 +169,8 @@ logger(){
 main() {
     #logger "Installation started..."
     welcome
-    prepare_autostart
     prepare_rfid
+    prepare_autostart
 }
 
 start=$(date +%s)

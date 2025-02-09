@@ -4,7 +4,6 @@
 # sudo systemctl --all list-unit-files --type=service
 
 GIT_REPO=${GIT_REPO:-sound-box}
-
 CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 SOUNDBOX_HOME_DIR="${HOME_DIR}"

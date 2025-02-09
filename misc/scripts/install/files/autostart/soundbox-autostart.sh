@@ -21,12 +21,12 @@ DATETIME=$(date +"%Y%m%d_%H%M%S")
 #  
 ################################
 main() {
-if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]; then
-    # create logger file
-    touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt
-fi
-    echo "${DATETIME}: Autostart SoundBox running..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
-    bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh"
+    if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]; then
+        # create logger file
+        touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt
+    fi
+    echo "${DATETIME}: Autostart SoundBox starting..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
+    bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh" >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
 }
 
 

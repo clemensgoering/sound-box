@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
-
-
 GIT_REPO=${GIT_REPO:-sound-box}
-
 CURRENT_USER="${SUDO_USER:-$(whoami)}"
 HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 SOUNDBOX_HOME_DIR="${HOME_DIR}"
 
-main(){
+rfid(){
+
     local systemd_dir="/etc/systemd/system"
+
     echo "Disable old RFID Service Instances..."
     sudo systemctl disable soundbox-rfid
     # remove potentially existing services from previous installations
     sudo rm "${systemd_dir}"/soundbox-rfid.service
     sudo rm /usr/local/bin/soundbox-rfid.sh
 
-    echo "Installing Python requirements for RC522...\n"
+    echo "Installing Python requirements for RC522..."
     sudo apt install python3-pip
     sudo python3 -m pip install --upgrade --force-reinstall --no-deps -q -r "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/packages/packages-rfid.txt
 
@@ -27,11 +26,11 @@ main(){
     sudo python3 setup.py install
     cd
 
-    echo "Activating SPI...\n"
+    echo "Activating SPI..."
     # 0 = enabled, 1 = disabled
     sudo raspi-config nonint do_spi 0
 
-    echo "Copy RFID reader...\n"
+    echo "Copy RFID reader..."
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/soundbox-rfid.service "${systemd_dir}"/soundbox-rfid.service
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/soundbox-rfid.sh /usr/local/bin/soundbox-rfid.sh
 
@@ -43,16 +42,18 @@ main(){
     sudo chown pi:www-data "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/run/*.sh
     sudo chmod +x "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/run/*.sh
 
-    echo "Restarting rfid-reader service...\n"
+    echo "Restarting rfid-reader service..."
     sudo systemctl daemon-reload
     sudo systemctl enable soundbox-rfid.service
 
-    echo "Create RFID File...\n"
+    echo "Create RFID File..."
     if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/files/rfid/rfid_logger.txt ]; then
         # create logger file
-        touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/files/rfid/rfid_logger.txt
+        touch "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/rfid_logger.txt
     fi
-    echo "Done.\n"
+    
+    sudo chmod 744 "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/rfid_logger.txt
+    echo "Done."
 }
 
-main
+rfid

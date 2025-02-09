@@ -146,6 +146,7 @@ loading_git(){
         cd "${SOUNDBOX_HOME_DIR}"/"${GIT_BRANCH}"
         if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]; then
             # create logger file
+            echo "Creating logger file..."
             touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt    
             sudo chmod 744 ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt  
         fi

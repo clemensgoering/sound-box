@@ -18,7 +18,7 @@ rfid(){
     sudo apt install python3-pip
     sudo python3 -m pip install --upgrade --force-reinstall --no-deps -q -r "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/packages/packages-rfid.txt
 
-    cd "${SOUNDBOX_HOME_DIR}"
+    cd "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"
     git clone https://github.com/lthiery/SPI-Py.git
     git checkout 8cce26b9ee6e69eb041e9d5665944b88688fca68
 

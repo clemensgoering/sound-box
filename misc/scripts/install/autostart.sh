@@ -38,6 +38,8 @@ autostart(){
 
     echo ""
     echo "Main application will be installed..."
+    # executing start script to prevent delay on
+    # reboot which requires to install postgre and other dependencies installations
     bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh"
 }
 

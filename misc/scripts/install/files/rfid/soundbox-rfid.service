@@ -5,6 +5,7 @@ After=multi-user.target
 [Service]
 Restart=always
 Type=idle
+WorkingDirectory=/home/pi/sound-box
 ExecStart=/usr/local/bin/soundbox-rfid.sh 2>&1
 Nice=15
 

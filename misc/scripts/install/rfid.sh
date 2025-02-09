@@ -8,9 +8,16 @@ HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 SOUNDBOX_HOME_DIR="${HOME_DIR}"
 
 main(){
+    local systemd_dir="/etc/systemd/system"
+    echo "Disable old RFID Service Instances..."
+    sudo systemctl disable soundbox-rfid
+    # remove potentially existing services from previous installations
+    sudo rm "${systemd_dir}"/soundbox-rfid.service
+    sudo rm /usr/local/bin/soundbox-rfid.sh
+
     echo "Installing Python requirements for RC522...\n"
     sudo apt install python3-pip
-    sudo python3 -m pip install --upgrade --force-reinstall --no-deps -q -r "${SOUNDBOX_HOME_DIR}"/misc/packages/packages-rfid.txt
+    sudo python3 -m pip install --upgrade --force-reinstall --no-deps -q -r "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/packages/packages-rfid.txt
 
     cd "${SOUNDBOX_HOME_DIR}"
     git clone https://github.com/lthiery/SPI-Py.git

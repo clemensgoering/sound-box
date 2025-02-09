@@ -21,7 +21,7 @@ TIMESTAMP=$(date)
 #  
 ################################
 main() {
-
+    sudo python "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/Read.py
 }
 
 

@@ -144,7 +144,11 @@ loading_git(){
         # load into temp folder
         git clone ${GIT_URL} --branch "${GIT_BRANCH}"
         cd "${SOUNDBOX_HOME_DIR}"/"${GIT_BRANCH}"
-
+        if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]; then
+            # create logger file
+            touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt    
+            sudo chmod 744 ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt  
+        fi
         echo "-- Fetching git data completed"
         check_continue "Loading NodeJS Data and Dependencies..."
     fi

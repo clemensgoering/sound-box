@@ -37,17 +37,8 @@ autostart(){
     sudo systemctl enable soundbox-autostart.service
 
     echo ""
-    echo "System needs to be restarted to enable all services."
-    echo "Soundbox has been added to the boot process and will automatically started on reboot."
-    read -rp "Ready to restart your device [Y/n] " response
-    case "$response" in
-        [nN][oO]|[nN])
-            sudo reboot
-            ;;
-        *)
-            sudo reboot
-            ;;
-    esac
+    echo "Main application will be installed..."
+    bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh"
 }
 
 autostart

@@ -136,6 +136,8 @@ loading_git(){
         echo "-- Checking and preparing git init..."
         ${apt_get} install git
         echo "-- Create folder and config file"
+        # remove all previous existing folders and files
+        sudo rm "${SOUNDBOX_HOME_DIR}"
         cd "${SOUNDBOX_HOME_DIR}"
         git clone ${GIT_URL} --branch "${GIT_BRANCH}"
         echo "-- Fetching git data completed"

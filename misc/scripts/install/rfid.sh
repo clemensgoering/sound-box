@@ -10,21 +10,21 @@ SOUNDBOX_HOME_DIR="${HOME_DIR}"
 main(){
     echo "Installing Python requirements for RC522...\n"
     sudo apt install python3-pip
-    
+    sudo python3 -m pip install --upgrade --force-reinstall --no-deps -q -r "${SOUNDBOX_HOME_DIR}"/misc/packages/packages-rfid.txt
+
+    cd "${SOUNDBOX_HOME_DIR}"
     git clone https://github.com/lthiery/SPI-Py.git
     git checkout 8cce26b9ee6e69eb041e9d5665944b88688fca68
-    sudo python setup.py install
 
     cd SPI-Py
     sudo python3 setup.py install
     cd
-    sudo python3 -m pip install --upgrade --force-reinstall --no-deps -q -r "${SOUNDBOX_HOME_DIR}"/misc/packages/packages-rfid.txt
-
 
     echo "Activating SPI...\n"
+    # 0 = enabled, 1 = disabled
     sudo raspi-config nonint do_spi 0
 
-    echo "Configure RFID reader...\n"
+    echo "Copy RFID reader...\n"
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/soundbox-rfid.service "${systemd_dir}"/soundbox-rfid.service
     sudo cp "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/soundbox-rfid.sh /usr/local/bin/soundbox-rfid.sh
 
@@ -33,9 +33,14 @@ main(){
     sudo chmod 664 "${systemd_dir}"/soundbox-rfid.service
     sudo chown root:root /usr/local/bin/soundbox-rfid.sh
 
-    echo "Restarting rfid-reader service...\n"
-    sudo systemctl restart soundbox-rfid.service
+    sudo chown pi:www-data "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/run/*.sh
+    sudo chmod +x "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/run/*.sh
 
+    echo "Restarting rfid-reader service...\n"
+    sudo systemctl daemon-reload
+    sudo systemctl enable soundbox-rfid.service
+
+    echo "Create RFID File...\n"
     if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/rfid.txt ]; then
         # create logger file
         touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/rfid.txt

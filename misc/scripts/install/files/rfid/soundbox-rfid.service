@@ -1,11 +1,12 @@
 [Unit]
-Description=Soundbox Service
+Description=soundbox-rfid Service
 After=multi-user.target
 
 [Service]
+User=pi
 Restart=always
 Type=idle
-ExecStart=/usr/local/bin/soundbox-rfid.sh
+ExecStart=/usr/bin/bash /usr/local/bin/soundbox-rfid.sh
 Nice=15
 
 [Install]

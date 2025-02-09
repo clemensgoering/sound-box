@@ -1,11 +1,12 @@
 [Unit]
-Description=Soundbox Service
+Description=soundbox-autostart Service
 After=multi-user.target
 
 [Service]
+User=pi
 Restart=always
 Type=idle
-ExecStart=/usr/local/bin/soundbox-autostart.sh
+ExecStart=/usr/bin/bash /usr/local/bin/soundbox-autostart.sh
 Nice=15
 
 [Install]

@@ -21,10 +21,6 @@ DATETIME=$(date +"%Y%m%d_%H%M%S")
 #  
 ################################
 main() {
-    if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]; then
-        # create logger file
-        touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt
-    fi
     echo "${DATETIME}: RFID SoundBox starting..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
     sudo python "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/Read.py >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
 } 

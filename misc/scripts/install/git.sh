@@ -20,10 +20,7 @@ git(){
     echo ""
     echo "-- Checking and preparing git init..."
     ${apt_get} install git
-    echo "-- Create folder and config file"
-    # remove all previous existing folders and files
-    sudo rm -rf "${SOUNDBOX_HOME_DIR}/${GIT_REPO}"
-        
+    echo "-- Temp folder creation and copy process..."
     # load into temp folder
     cd "${SOUNDBOX_HOME_DIR}/temp"
     git clone ${GIT_URL} --branch "${GIT_BRANCH}" && git mv "${SOUNDBOX_HOME_DIR}/temp" "${SOUNDBOX_HOME_DIR}" && rm -rf "${SOUNDBOX_HOME_DIR}/temp"

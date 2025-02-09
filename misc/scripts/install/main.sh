@@ -91,6 +91,9 @@ loading_general_updates(){
     ${apt_get} update
     ${apt_get} upgrade
     echo "-- Update completed."
+    echo "-- Remove potential previous installations..."
+    # remove all previous existing folders and files
+    sudo rm -rf "${SOUNDBOX_HOME_DIR}/${GIT_REPO}"
     check_continue "Loading GIT Data"
 }
 
@@ -138,10 +141,8 @@ loading_git(){
         echo "-- Checking and preparing git init..."
         ${apt_get} install git
         echo "-- Create folder and config file"
-        # remove all previous existing folders and files
-        sudo rm -rf "${SOUNDBOX_HOME_DIR}/${GIT_REPO}"
-        
         # load into temp folder
+        mkdir "${SOUNDBOX_HOME_DIR}/temp"
         cd "${SOUNDBOX_HOME_DIR}/temp"
         git clone ${GIT_URL} --branch "${GIT_BRANCH}" && git mv "${SOUNDBOX_HOME_DIR}/temp" "${SOUNDBOX_HOME_DIR}" && rm -rf "${SOUNDBOX_HOME_DIR}/temp"
         cd "${SOUNDBOX_HOME_DIR}"

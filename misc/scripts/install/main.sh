@@ -138,7 +138,11 @@ loading_git(){
         echo "-- Create folder and config file"
         # remove all previous existing folders and files
         sudo rm -rf "${SOUNDBOX_HOME_DIR}"
-        git clone ${GIT_URL} --branch "${GIT_BRANCH}" && git mv "${SOUNDBOX_HOME_DIR}/temp" . && rm -rf "${SOUNDBOX_HOME_DIR}/temp"
+        
+        cd "${SOUNDBOX_HOME_DIR}"
+        cd "${SOUNDBOX_HOME_DIR}/temp"
+
+        git clone ${GIT_URL} --branch "${GIT_BRANCH}" && git mv "${SOUNDBOX_HOME_DIR}/temp" "${SOUNDBOX_HOME_DIR}" && rm -rf "${SOUNDBOX_HOME_DIR}/temp"
         cd "${SOUNDBOX_HOME_DIR}"
         echo "-- Fetching git data completed"
         check_continue "Loading NodeJS Data and Dependencies..."

@@ -28,6 +28,7 @@
 
 import MFRC522
 import signal
+import os
 
 continue_reading = True
 
@@ -67,11 +68,16 @@ while continue_reading:
     # If a card is found
     if status == MIFAREReader.MI_OK:
         print ("Card detected")
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        print(dir_path);
 
         # Get the UID of the card
         (status, uid) = MIFAREReader.MFRC522_SelectTagSN()
         # If we have the UID, continue
         if status == MIFAREReader.MI_OK:
             print("Card read UID: %s" % uidToString(uid))
+            f = open(dir_path + "/rfid_logger.txt", "w")
+            f.write(uidToString(uid))
+            f.close()
         else:
             print("Authentication error")

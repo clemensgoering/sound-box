@@ -48,9 +48,9 @@ main(){
     sudo systemctl enable soundbox-rfid.service
 
     echo "Create RFID File...\n"
-    if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/rfid.txt ]; then
+    if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/files/rfid/rfid_logger.txt ]; then
         # create logger file
-        touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/rfid.txt
+        touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/files/rfid/rfid_logger.txt
     fi
     echo "Done.\n"
 }

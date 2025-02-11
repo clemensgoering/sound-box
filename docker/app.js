@@ -20,12 +20,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', nav);
 app.use('/api/playlist', playlistRouter);
 
-db.sequelize.sync({ force: true })
-.then(() => {
-  console.log("Drop and re-sync db.");
-})
+
+db.sequelize.sync()
+  .then(() => {
+    console.log("Synced db.");
+  })
   .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
+    console.log("Failed to sync db: " + err);
   });
 
 

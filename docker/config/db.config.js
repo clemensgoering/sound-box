@@ -1,5 +1,5 @@
 module.exports = {
-    HOST: process.env.DB_HOST || 'localhost',
+    HOST: process.env.DB_HOST || 'postgres',
     USER: process.env.DB_USER || 'postgres',
     PASSWORD: process.env.DB_PASSWORD || 'pg1234',
     DB: "soundbox",

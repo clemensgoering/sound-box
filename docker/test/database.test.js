@@ -1,4 +1,4 @@
-const db = require('../database.js');
+const db = require('../model');
 
 beforeAll(async () => {
     await db.sequelize.sync({ force: true });

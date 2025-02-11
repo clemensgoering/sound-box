@@ -1,5 +1,5 @@
+.vscode
 install.original.sh
 /docker/node_modules
-.vscode
 /docker/.env
 /misc/scripts/install/files/rfid/rfid_logger.txt

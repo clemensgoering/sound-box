@@ -24,10 +24,14 @@
         </div>
     </nav>
     <h2>RFID-Daten hinzufügen</h2>
-    <form action="/add" method="POST">
+    <form action="/playlist/" method="POST">
+        <div class="mb-3">
+            <label for="spotifyUrl" class="form-label">ID</label>
+            <input type="text" class="form-control" id="id" name="id" required>
+        </div>
         <div class="mb-3">
             <label for="spotifyUrl" class="form-label">Spotify URL</label>
-            <input type="text" class="form-control" id="spotifyUrl" name="spotifyUrl" required>
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <button type="submit" class="btn btn-primary">Speichern</button>
     </form>

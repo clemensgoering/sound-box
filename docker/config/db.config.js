@@ -1,14 +1,10 @@
 module.exports = {
-    HOST: process.env.DB_HOST || 'postgres',
-    USER: process.env.DB_USER || 'postgres',
-    PASSWORD: process.env.DB_PASSWORD || 'pg1234',
-    DB: "soundbox",
-    PORT: process.env.DB_PORT || 5432,
-    SCHEMA: process.env.DB_SCHEMA || 'postgres',
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PASSWORD,
+    PORT: process.env.DB_PORT,
+    DB: process.env.DB_NAME,
     dialect: "postgres",
-    dialectOptions: {
-        ssl: process.env.DB_SSL == "true"
-    },
     pool: {
       max: 5,
       min: 0,

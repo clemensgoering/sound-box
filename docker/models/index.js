@@ -4,11 +4,10 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false
-    }
+  dialectOptions: {},  
+  define: {
+    //prevent sequelize from pluralizing table names
+    freezeTableName: true
   },
   pool: {
     max: dbConfig.pool.max,
@@ -18,10 +17,10 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   }
 });
 
-const Playlist = require("./playlist.model.js")(sequelize, Sequelize);
+const Rfid = require("./rfid.model.js")(sequelize, Sequelize);
 
 module.exports = {
     sequelize: sequelize,
     Sequelize: Sequelize,
-    Playlist: Playlist
+    Rfid: Rfid
 };

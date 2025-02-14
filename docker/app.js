@@ -5,7 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const playlistRouter = require('./routes/playlist');
+const rfidRouter = require('./routes/rfid');
 const nav = require('./routes/nav');
 
 const app = express();
@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', nav);
-app.use('/api/playlist', playlistRouter);
+app.use('/api/rfid', rfidRouter);
 
 
 db.sequelize.sync()

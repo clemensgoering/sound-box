@@ -1,3 +1,3 @@
 // bin/migrate.js
-var db = require('../model');
+var db = require('../models');
 db.sequelize.sync();

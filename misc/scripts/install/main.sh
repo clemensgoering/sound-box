@@ -10,7 +10,6 @@ HOME_DIR=$(getent passwd "$CURRENT_USER" | cut -d: -f6)
 SOUNDBOX_HOME_DIR="${HOME_DIR}"
 #local specific variables
 DATETIME=$(date +"%Y%m%d_%H%M%S")
-CONFIG_FILE="configuration.conf"
 CONTINUE=true
 
 ################################
@@ -74,11 +73,21 @@ welcome() {
 
 
 create_config_file() {
-    # CONFIG FILE
+    # files for soundbox nodejs application
+    # reading latest rfid id
+    # as well as the status of running services
     mkdir "${SOUNDBOX_HOME_DIR}"
     # Create empty config file
-    touch "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/${CONFIG_FILE}"
-    echo "# Overall config" > "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/${CONFIG_FILE}"
+    echo "Create RFID File..."
+    if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker/public/files/rfid_logger.txt ]; then
+        # create logger file
+        touch "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/docker/public/files/rfid_logger.txt
+    fi
+    echo "Create Status File..."
+    if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker/public/files/status.txt ]; then
+        # create logger file
+        touch "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/docker/public/files/status.txt
+    fi
     echo "-- Configuration file created."
 }
 

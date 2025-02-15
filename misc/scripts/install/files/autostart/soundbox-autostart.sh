@@ -22,6 +22,9 @@ DATETIME=$(date +"%Y%m%d_%H%M%S")
 ################################
 main() {
     echo "${DATETIME}: Autostart SoundBox starting..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
+    # initialize and clear status file
+    : > "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker/public/files/status.txt"
+    echo "AUTOSTART:ON" >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker/public/files/status.txt"
     bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh" >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
 }
 

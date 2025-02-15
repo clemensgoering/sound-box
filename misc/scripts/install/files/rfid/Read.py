@@ -29,6 +29,8 @@
 import MFRC522
 import signal
 import os
+from pathlib import Path
+
 
 continue_reading = True
 
@@ -45,7 +47,7 @@ def uidToString(uid):
 # Capture SIGINT for cleanup when the script is aborted
 def end_read(signal, frame):
     global continue_reading
-    print("Ctrl+C captured, ending read.")
+    print("Manual execution: Ctrl+C captured, ending read.")
     continue_reading = False
 
 # Hook the SIGINT
@@ -55,8 +57,14 @@ signal.signal(signal.SIGINT, end_read)
 MIFAREReader = MFRC522.MFRC522()
 
 # Welcome message
-print("Welcome to the MFRC522 data read example")
-print("Press Ctrl-C to stop.")
+print("Version 1.63")
+status_file = os.path.dirname(Path.home()) + "/pi/sound-box/docker/public/files/status.txt"
+try:
+    f = open(status_file, "a") #a, append. Instead of w, write
+    f.write("RFID:ON")
+    f.close()
+except IOError:
+    print("Stautsfile update failed")
 
 # This loop keeps checking for chips.
 # If one is near it will get the UID and authenticate
@@ -67,16 +75,14 @@ while continue_reading:
 
     # If a card is found
     if status == MIFAREReader.MI_OK:
-        print ("Card detected")
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        print(dir_path);
-
+        logger_file = os.path.dirname(Path.home()) + "/pi/sound-box/docker/public/files/rfid_logger.txt"
         # Get the UID of the card
-        (status, uid) = MIFAREReader.MFRC522_SelectTagSN()
+        (status_tags, uid) = MIFAREReader.MFRC522_SelectTagSN()
+
         # If we have the UID, continue
-        if status == MIFAREReader.MI_OK:
+        if status_tags == MIFAREReader.MI_OK:
             print("Card read UID: %s" % uidToString(uid))
-            f = open(dir_path + "/rfid_logger.txt", "w")
+            f = open(logger_file, "w")
             f.write(uidToString(uid))
             f.close()
         else:

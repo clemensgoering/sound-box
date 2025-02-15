@@ -11,6 +11,9 @@ const nav = require('./routes/nav');
 const app = express();
 const db = require("./models");
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -4,22 +4,26 @@ const router = express.Router();
 
 // Startseite
 router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.render('../public/index');
 });
 
 // Übersicht (RFID-Tag-Liste)
 router.get('/overview', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/overview.html'));
+  res.render('../public/overview');
 });
 
 // Pflegeseite (Neuen RFID hinzufügen)
 router.get('/add', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/add.html'));
+  res.render('../public/add');
 });
 
 // Löschseite (RFID entfernen)
 router.get('/delete', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/delete.html'));
+  res.render('../public/delete');
+});
+
+router.get('/settings', (req, res) => {
+  res.render('../public/settings');
 });
 
 module.exports = router;

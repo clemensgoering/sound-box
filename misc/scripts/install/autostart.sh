@@ -37,10 +37,19 @@ autostart(){
     sudo systemctl enable soundbox-autostart.service
 
     echo ""
-    echo "Main application will be installed..."
+    echo "Main application installed..."
     # executing start script to prevent delay on
     # reboot which requires to install postgre and other dependencies installations
-    bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/run/start.sh"
+    echo "System needs to be restarted and will automatically start the services and application."
+    read -rp "Do you want to restart now? [Y/n] " response
+    case "$response" in
+        [nN][oO]|[nN])
+            echo "Installation finished."
+            ;;
+        *)
+            sudo reboot
+            ;;
+    esac
 }
 
 autostart

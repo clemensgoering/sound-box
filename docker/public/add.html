@@ -9,14 +9,9 @@
     <script src="js/handler.js"></script>
     <script>
         async function loadRFIDData() {
-            var rawFile = new XMLHttpRequest();
-            rawFile.open("GET", "/files/rfid_logger.txt", true);
-            rawFile.onreadystatechange = function() {
-                if (rawFile.readyState === 4) {
-                var allText = rawFile.responseText;
-                document.getElementById("textSection").innerHTML = allText;
-                }
-            }
+            fetch("/files/rfid_logger.txt")
+                .then(response => response.text())
+                .then(text => { document.getElementById("id").value = text });
         }
         window.onload = loadRFIDData;
     </script>
@@ -42,7 +37,7 @@
     <form id="addForm">
         <div class="mb-3">
             <label for="spotifyUrl" class="form-label">ID</label>
-            <input type="text" class="form-control" id="id" name="id" required>
+            <input type="text" class="form-control" id="id" name="id" disabled>
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>

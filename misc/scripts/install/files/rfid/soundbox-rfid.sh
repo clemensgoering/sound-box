@@ -22,6 +22,7 @@ DATETIME=$(date +"%Y%m%d_%H%M%S")
 ################################
 main() {
     echo "${DATETIME}: RFID SoundBox starting..." >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
+    echo "RFID:ON" >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker/public/files/status.txt"
     sudo python "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/misc/scripts/install/files/rfid/Read.py >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt"
 } 
 

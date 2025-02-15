@@ -36,7 +36,7 @@ main() {
     echo "Run the container..."
     # docker-compose will use the docker-compose.yml to 
     # build the service
-    sudo docker-compose up --build --remove-orphans
+    sudo docker-compose up -d --build --remove-orphans
     # migrate, script from packages file
     # - docker run -it -e "POSTGRES_HOST_AUTH_METHOD=trust" -p 5432:5432 postgres > /dev/null 2>&1
     # migrate would need to be executed in another

@@ -58,7 +58,7 @@ MIFAREReader = MFRC522.MFRC522()
 
 # Welcome message
 print("Version 1.63")
-status_file = os.path.dirname(Path.home()) + "/pi/sound-box/docker/public/files/status.txt"
+status_file = "/home/pi/sound-box/docker/public/files/status.txt"
 try:
     f = open(status_file, "a") #a, append. Instead of w, write
     f.write("RFID:ON")
@@ -75,7 +75,7 @@ while continue_reading:
 
     # If a card is found
     if status == MIFAREReader.MI_OK:
-        logger_file = os.path.dirname(Path.home()) + "/pi/sound-box/docker/public/files/rfid_logger.txt"
+        logger_file = "/home/pi/sound-box/docker/public/files/rfid_logger.txt"
         # Get the UID of the card
         (status_tags, uid) = MIFAREReader.MFRC522_SelectTagSN()
 

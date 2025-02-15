@@ -156,7 +156,11 @@ loading_git(){
         cd "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"
         # create logger file
         echo "Creating logger file..."
-        touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt    
+        if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt ]; then
+            # create logger file
+            touch ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt
+        fi
+        
         sudo chmod 744 ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/logger.txt  
     
         echo "-- Fetching git data completed"

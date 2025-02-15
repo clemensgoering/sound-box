@@ -28,6 +28,7 @@ check_continue(){
     read -rp "Continue next step: '$1'? [Y/n] " response
     case "$response" in
         [nN][oO]|[nN])
+            CONTINUE=false
             echo "Installation stopped"
             ;;
         *)

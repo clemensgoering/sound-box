@@ -32,5 +32,11 @@ $(document).ready(function () {
         });
     });
 
+    $( "#loadRFIDbtn" ).on( "click", function() {
+        fetch("../files/rfid_logger.txt")
+            .then(response => response.text())
+            .then(text => { document.getElementById("id").value = text });
+    });
+
 
 });

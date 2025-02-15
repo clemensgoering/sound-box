@@ -2,5 +2,5 @@
 install.original.sh
 /docker/node_modules
 /docker/.env
-/misc/scripts/install/files/rfid/rfid_logger.txt
+/misc/scripts/install/files/rfid_logger.txt
 /docker/public/files/*.txt

@@ -4,11 +4,11 @@ services:
     image: postgres:latest
     # The `env_file` tag allows us to declare an environment file
     environment:
-          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-          - POSTGRES_USER=${POSTGRES_USER}
-          - POSTGRES_DB=${POSTGRES_DB}
+      POSTGRES_PASSWORD: pg1234
+      POSTGRES_USER: postgres
+      POSTGRES_DB: soundbox
     ports:
-      - ${POSTGRES_LOCAL_PORT}:${POSTGRES_PORT}
+      - 5432:5432
     volumes:
       - soundbox-db:/var/lib/postgresql/data
     networks:
@@ -17,17 +17,28 @@ services:
   soundbox:
     build:
       context: .
-    env_file:
-      - .env # The name of your environment file (the one at the repository root)
+    environment:
+      DB_HOST: pgservice
+      DB_USER: postgres
+      DB_PASSWORD: pg1234
+      DB_NAME: soundbox
     restart: unless-stopped
     depends_on:
       - pgservice
     ports:
-      - ${NODE_LOCAL_PORT}:${NODE_DOCKER_PORT}
+      - 3000:3000
     networks:
       - soundboxNetwork
     stdin_open: true
     tty: true
+    # binding working dir
+    # so the app is keeping track of changes made
+    # to any file within the container, like rfid_logger.txt changes
+    # from rfid service
+    volumes:
+          - type: bind
+            source: .
+            target: /usr/src/app
 
 volumes:
   soundbox-db:

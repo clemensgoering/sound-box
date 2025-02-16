@@ -33,25 +33,18 @@ main(){
         if [ ! -f ${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker/public/files/mopidy.txt ]; then
             # create logger file
             touch "${SOUNDBOX_HOME_DIR}"/"${GIT_REPO}"/docker/public/files/mopidy.txt
-        fi
+        fi    
 
+        chmod 744 "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker/public/files/mopidy.txt"
         echo "#####################################################"
 
-        read -rp "Do you want to enable Spotify (Mopidy)? [y/N]" response
-        case "$response" in
-            [yY][eE][sS]|[yY])
-                SPOTinstall=YES
-                clear
-                echo "#####################################################"
+        read -rp "Type your client_id: " clientID
+        read -rp "Type your client_secret: " clientSECRET
 
-                read -rp "Type your client_id: " clientID
-                read -rp "Type your client_secret: " clientSECRET
-                ;;
-            *)
-                SPOTinstall=NO
-                echo "You don't want spotify support."
-            ;;
-        esac
+        {
+            echo "SPOTIclientid=\"$(_escape_for_shell "$clientID")\"";
+            echo "SPOTIclientsecret=\"$(_escape_for_shell "$clientSECRET")\""
+        } >> "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/docker/public/files/mopidy.txt"
 
         echo "Configuring Spotify support..."
         local mopidy_conf="/etc/mopidy/mopidy.conf"

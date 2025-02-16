@@ -117,12 +117,21 @@ prepare_rfid(){
     # autostart configuration mandatory
     # no continue check required
     bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/rfid.sh"
+    check_continue "Installing Mopidy..."
 }
 
 loading_nodejs(){        
 
     if [[ ${CONTINUE} == "true" ]]; then
         bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/node.sh"
+        check_continue "Preparing Docker container..."
+    fi
+}
+
+prepare_mopidy(){        
+
+    if [[ ${CONTINUE} == "true" ]]; then
+        bash "${SOUNDBOX_HOME_DIR}/${GIT_REPO}/misc/scripts/install/mopidy.sh"
         check_continue "Preparing Docker container..."
     fi
 }
@@ -178,8 +187,8 @@ install(){
     # NodeJS and Docker
     loading_nodejs
     processing_docker
-
-
+    prepare_rfid
+    prepare_mopidy
 }
 
 logger(){
@@ -193,8 +202,8 @@ logger(){
 ################################
 main() {
     #logger "Installation started..."
-    welcome
-    prepare_rfid
+    # welcome , prompt start installation
+    welcome 
     prepare_autostart
 }
 
